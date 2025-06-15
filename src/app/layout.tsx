@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         dir="rtl"
-        className={"antialiased bg-zinc-50/50 min-h-screen font-[YekanBakh]"}
+        className={"antialiased bg-background min-h-screen font-[YekanBakh]"}
       >
         <Header />
         <div className="min-h-screen">{children}</div>
