@@ -21,7 +21,7 @@ export default function RootLayout({
         className={"antialiased bg-zinc-50/50 min-h-screen font-[YekanBakh]"}
       >
         <Header />
-        {children}
+        <div className="min-h-screen">{children}</div>
         <Footer />
       </body>
     </html>

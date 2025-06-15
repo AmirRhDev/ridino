@@ -1,3 +1,9 @@
+import Hero from "@/components/features/hero";
+
 export default function Home() {
-  return <h1>content</h1>;
+  return (
+    <main className="flex flex-col gap-4 items-center">
+      <Hero />
+    </main>
+  );
 }
