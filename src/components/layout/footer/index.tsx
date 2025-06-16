@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <div className="bg-background px-11 py-4 flex items-center justify-between border-t border-zinc-200">
+    <div className="bg-background px-11 py-4 flex items-center justify-between border-t border-zinc-200 mt-20">
       <div className="flex items-center gap-1">
         <h6>توسعه داده شده توسط:</h6>
         <Button asChild variant="link">
