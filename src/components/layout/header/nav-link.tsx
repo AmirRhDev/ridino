@@ -9,7 +9,7 @@ interface Props {
 function NavLink({ href, label, icon }: Props) {
   return (
     <Link
-      className="text-base duration-100 text-secondary hover:text-secondary/70 font-semibold flex items-center gap-1"
+      className="text-base duration-100 text-foreground hover:text-foreground/70 font-semibold flex items-center gap-1"
       href={href}
     >
       {icon}
