@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+// import { Direction } from "@radix-ui";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "../assets/styles/globals.css";
 import Header from "@/components/layout/header";
@@ -20,8 +23,9 @@ export default function RootLayout({
         dir="rtl"
         className={"antialiased bg-background min-h-screen font-[YekanBakh]"}
       >
+        {/* <Direction */}
         <Header />
-        <div className="min-h-screen">{children}</div>
+        <main className="min-h-screen px-11 py-16">{children}</main>
         <Footer />
       </body>
     </html>
