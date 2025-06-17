@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { Badge } from "@/components/shadcnUi/badge";
 
-import TomanIcon from "@/components/icons/toman";
+import TomanIcon from "@/components/icons/tomanIcon";
 import { MapPin } from "lucide-react";
 
 import carImage from "../../../../public/car1.jpg";
