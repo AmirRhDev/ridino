@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 
-// import { Direction } from "@radix-ui";
-
-import { Geist, Geist_Mono } from "next/font/google";
-import "../assets/styles/globals.css";
+import DirectionProvider from "@/components/providers/direction.provider";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
@@ -25,7 +22,11 @@ export default function RootLayout({
       >
         {/* <Direction */}
         <Header />
-        <main className="min-h-screen px-11 py-16">{children}</main>
+        <DirectionProvider dir="rtl">
+          <main className="min-h-screen px-8 sm:px-11 py-12 sm:py-16">
+            {children}
+          </main>
+        </DirectionProvider>
         <Footer />
       </body>
     </html>
