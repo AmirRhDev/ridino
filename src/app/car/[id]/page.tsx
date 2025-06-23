@@ -9,19 +9,19 @@ import ProductPrice from "@/components/features/product/product-price";
 import ProductCallCustomer from "@/components/features/product/product-call-customer";
 import ProductMore from "@/components/features/product/product-more";
 
-function CarDetails() {
+function CarDetail() {
   return (
-    <div className="grid grid-cols-11 gap-4">
-      <div className="col-span-7 flex flex-col gap-1">
+    <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
+      <div className="lg:col-span-7 flex flex-col gap-1">
         <ProductCarousel />
 
-        <ProductDescription />
+        <ProductDescription className="hidden lg:flex" />
 
-        <ProductTechnicalDetail />
+        <ProductTechnicalDetail className="hidden lg:flex" />
       </div>
 
-      {/*fix sticky later*/}
-      <div className="col-span-4 flex flex-col gap-1 p-1 h-min sticky top-[80px]">
+      {/* TODO: fix sticky later */}
+      <div className="lg:col-span-4 flex flex-col gap-1 p-1 h-min lg:sticky lg:top-[80px]">
         <div className="flex justify-between items-center gap-3">
           <h1 className="font-semibold text-foreground text-xl">پژو، پارس</h1>
 
@@ -46,8 +46,12 @@ function CarDetails() {
 
         <ProductMore />
       </div>
+
+      <ProductDescription className="flex lg:hidden border-t pt-3" />
+
+      <ProductTechnicalDetail className="flex lg:hidden" />
     </div>
   );
 }
 
-export default CarDetails;
+export default CarDetail;

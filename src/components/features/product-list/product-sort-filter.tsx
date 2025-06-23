@@ -21,7 +21,10 @@ export function ProductsSortFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          className="!border-border !bg-input w-full sm:w-1/2 md:w-auto"
+        >
           {selectedOption === "default"
             ? "ترتیب"
             : selectedOption === "newwest"

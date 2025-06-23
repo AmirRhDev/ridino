@@ -8,7 +8,7 @@ import { ReactElement } from "react";
 
 function ProductMore() {
   return (
-    <div className="grid grid-cols-3 mt-5">
+    <div className="grid grid-cols-2 sm:grid-cols-3 mt-5">
       <ProductMoreItem
         icon={<CarKilometerIcon className="size-7 m-1.5" />}
         title="کارکرد"
@@ -59,7 +59,9 @@ interface ProductMoreItemProps {
 function ProductMoreItem({ icon, title, description }: ProductMoreItemProps) {
   return (
     <div className="flex flex-col gap-1 items-center p-2">
-      <div className="border-2 border-primary/60 rounded-full">{icon}</div>
+      <div className="border-2 border-primary/60 rounded-full text-foreground/90">
+        {icon}
+      </div>
       <span className="text-sm text-foreground/60">{title}</span>
       <p className="font-semibold text-foreground">{description}</p>
     </div>

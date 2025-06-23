@@ -2,10 +2,9 @@ import { ScrollArea, ScrollBar } from "@/components/shadcnUi/scroll-area";
 
 function CategoryList() {
   return (
-    <ScrollArea className="w-full border whitespace-nowrap">
-      <div className="flex flex-row-reverse w-max gap-4 px-0.5 py-1">
-        <div>پراید</div>
-        <div>ساندرو</div>
+    <ScrollArea className="w-full whitespace-nowrap">
+      <div className="flex w-max gap-4 px-0.5 py-1">
+        <div className="text-foreground/95 font-medium">پراید</div>
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

@@ -1,55 +1,41 @@
-import Image from "next/image";
-import carImage from "../../../../public/car1.jpg";
-import { MapPin } from "lucide-react";
-import TomanIcon from "@/components/icons/toman";
-import { Badge } from "@/components/shadcnUi/badge";
+import ProductCard from "./product-card";
+import SearchField from "@/components/common/search-field";
+import { ProductsSortFilter } from "./product-sort-filter";
+import { Switch } from "@/components/shadcnUi/switch";
+import { Label } from "@/components/shadcnUi/label";
+import CategoryList from "./category-list";
 
 function ProductList() {
   return (
-    <ul className="grid grid-cols-4 gap-6">
-      <li className="flex flex-col border border-foreground/30 shadow-muted shadow-sm rounded">
-        <Image
-          className="w-full rounded-t h-44"
-          src={carImage}
-          alt="car image"
-        />
+    <div>
+      <div className="flex flex-col gap-3 border-b border-foreground/30 pb-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-center gap-3">
+          <SearchField />
 
-        <div className="py-3 px-2">
-          <div className="flex justify-between items-center gap-1">
-            <p className="text-foreground font-bold text-lg">
-              رنو ساندرو استپ وی
-            </p>
-            <span className="text-foreground/80 text-xs">لحظاتی پیش</span>
-          </div>
+          <ProductsSortFilter />
 
-          <div className="flex items-center text-foreground/80 text-sm gap-1">
-            <p>1404</p>
-            <span>-</span>
-            <p>صفر کیلومتر</p>
-            <span>-</span>
-            <p>اتومات</p>
-          </div>
-
-          {/* features */}
-          <div className="flex flex-wrap gap-1 py-4">
-            <Badge variant="special">بیمه کامل</Badge>
-            <Badge variant="destructive">فروش فوری</Badge>
-          </div>
-
-          <div className="flex items-center justify-between gap-1">
-            <div className="flex items-center gap-0.5">
-              <MapPin size={18} strokeWidth="1.5" />
-              <span className="text-foreground/90 font-light">تهران</span>
-            </div>
-
-            <p className="flex gap-1 font-semibold text-foreground">
-              <span>980,000,000</span>
-              <TomanIcon />
-            </p>
-          </div>
+          {/* TODO: fix dark mode */}
+          <Label
+            dir="ltr"
+            className="flex items-center justify-center gap-2 cursor-pointer border border-border bg-input py-2 px-2.5 rounded-md w-full sm:w-auto sm:grow md:grow-0"
+          >
+            <Switch />
+            <span className="text-foreground">فقط قیمت مشخص</span>
+          </Label>
         </div>
-      </li>
-    </ul>
+
+        <CategoryList />
+      </div>
+
+      <ul className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </ul>
+    </div>
   );
 }
 

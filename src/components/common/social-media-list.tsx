@@ -29,7 +29,7 @@ const DEFAULT_ITEMS: SocialMediaItemType[] = [
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="size-6"
+        className="size-6 text-foreground/90"
       >
         <path d="M15 22v-4a4.8 4.8 0 00-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 004 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4M9 18c-4.51 2-5-2-7-2"></path>
       </svg>
@@ -49,7 +49,7 @@ const DEFAULT_ITEMS: SocialMediaItemType[] = [
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="size-6"
+        className="size-6 text-foreground/90"
       >
         <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"></path>
         <path d="M2 9H6V21H2z"></path>
@@ -65,7 +65,7 @@ const DEFAULT_ITEMS: SocialMediaItemType[] = [
         xmlns="http://www.w3.org/2000/svg"
         width="32"
         height="32"
-        className="size-6"
+        className="size-6 text-foreground/90"
         viewBox="0 0 24 24"
       >
         <path
@@ -75,26 +75,6 @@ const DEFAULT_ITEMS: SocialMediaItemType[] = [
       </svg>
     ),
   },
-  //   {
-  //     name: "amir.rahimnezhad79@gmail.com",
-  //     url: "",
-  //     icon: (
-  //       <svg
-  //         xmlns="http://www.w3.org/2000/svg"
-  //         fill="none"
-  //         viewBox="0 0 24 24"
-  //         strokeWidth={1.5}
-  //         stroke="currentColor"
-  //         className="size-6"
-  //       >
-  //         <path
-  //           strokeLinecap="round"
-  //           strokeLinejoin="round"
-  //           d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-  //         />
-  //       </svg>
-  //     ),
-  //   },
 ];
 
 function SocialMediaList({

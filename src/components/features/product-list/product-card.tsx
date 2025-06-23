@@ -10,11 +10,15 @@ import carImage from "../../../../public/car1.jpg";
 function ProductCard() {
   return (
     <li className="flex flex-col border border-foreground/30 shadow-muted shadow-sm rounded">
-      <Image className="w-full rounded-t h-44" src={carImage} alt="car image" />
+      <Image
+        className="w-full rounded-t aspect-[4/3] "
+        src={carImage}
+        alt="car image"
+      />
 
       <div className="py-3 px-2">
         <div className="flex justify-between items-center gap-1">
-          <p className="text-foreground font-bold text-lg">
+          <p className="text-base text-foreground font-bold sm:text-lg">
             رنو ساندرو استپ وی
           </p>
           <span className="text-foreground/80 text-xs">لحظاتی پیش</span>
@@ -36,7 +40,7 @@ function ProductCard() {
 
         <div className="flex items-center justify-between gap-1">
           <div className="flex items-center gap-0.5">
-            <MapPin size={18} strokeWidth="1.5" />
+            <MapPin className="text-foreground" size={18} strokeWidth="1.5" />
             <span className="text-foreground/90 font-light">تهران</span>
           </div>
 
