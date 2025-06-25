@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import DirectionProvider from "@/components/providers/direction.provider";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
@@ -23,13 +22,12 @@ export default function RootLayout({
         dir="rtl"
         className={"antialiased bg-background min-h-screen font-[YekanBakh]"}
       >
-        {/* <Direction */}
         <Header />
-        <DirectionProvider dir="rtl">
+        <Providers>
           <main className="min-h-screen px-8 sm:px-11 py-12 sm:py-16">
             {children}
           </main>
-        </DirectionProvider>
+        </Providers>
         <Footer />
         <MobileNavigation />
       </body>
