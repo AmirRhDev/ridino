@@ -5,6 +5,7 @@ import Footer from "@/components/layout/footer";
 
 import "../assets/styles/globals.css";
 import MobileNavigation from "@/components/layout/mobile-navigation";
+import Providers from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
