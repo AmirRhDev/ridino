@@ -1,7 +1,7 @@
 import SearchField from "@/components/common/search-field";
 import SwitchField from "@/components/common/switch-field";
+import { AllProduct } from "@/components/features/product-list-container";
 import CategoryList from "@/components/features/product-list/category-list";
-import ProductList from "@/components/features/product-list/product-list";
 import { ProductsSortFilter } from "@/components/features/product-list/product-sort-filter";
 
 function page() {
@@ -19,7 +19,7 @@ function page() {
         <CategoryList />
       </div>
 
-      <ProductList />
+      <AllProduct />
     </>
   );
 }
