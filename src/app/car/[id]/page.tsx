@@ -8,22 +8,44 @@ import ProductsLocation from "@/components/features/product/products-location";
 import ProductPrice from "@/components/features/product/product-price";
 import ProductCallCustomer from "@/components/features/product/product-call-customer";
 import ProductMore from "@/components/features/product/product-more";
+import { supabase } from "@/lib/supabaseClient";
+import { timeAgo } from "@/lib/utils";
 
-function CarDetail() {
+interface CarDetailProps {
+  params: Promise<{ id: string }>;
+}
+
+async function CarDetail({ params }: CarDetailProps) {
+  const { id } = await params;
+
+  const { data: car, error } = await supabase
+    .from("cars")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) throw new Error(error.message);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
       <div className="lg:col-span-7 flex flex-col gap-1">
         <ProductCarousel />
 
-        <ProductDescription className="hidden lg:flex" />
+        <ProductDescription
+          description={car.description}
+          className="hidden lg:flex"
+        />
 
-        <ProductTechnicalDetail className="hidden lg:flex" />
+        <ProductTechnicalDetail
+          {...car.technical_detail}
+          className="hidden lg:flex"
+        />
       </div>
 
       {/* TODO: fix sticky later */}
       <div className="lg:col-span-4 flex flex-col gap-1 p-1 h-min lg:sticky lg:top-[80px]">
         <div className="flex justify-between items-center gap-3">
-          <h1 className="font-semibold text-foreground text-xl">پژو، پارس</h1>
+          <h1 className="font-semibold text-foreground text-xl">{car.title}</h1>
 
           <div className="flex items-center gap-3.5">
             <ProductCopy />
@@ -32,24 +54,45 @@ function CarDetail() {
           </div>
         </div>
 
-        <ProductDetail />
+        <ProductDetail
+          year={car.year}
+          kilometers={car.kilometers}
+          gearbox={car.gearbox}
+        />
 
-        <span className="text-foreground/80 text-sm mt-3">لحظاتی پیش</span>
+        <span className="text-foreground/80 text-sm mt-3">
+          {timeAgo(car.created_at)}
+        </span>
 
         <div className="flex items-center justify-between gap-1 text-lg border-b border-foreground/10 pb-3">
-          <ProductsLocation />
+          <ProductsLocation location={car.location} />
 
-          <ProductPrice />
+          <ProductPrice price={car.price} />
         </div>
 
         <ProductCallCustomer />
 
-        <ProductMore />
+        <ProductMore
+          data={{
+            kilometers: car.kilometers,
+            gasType: car.gas_type,
+            gearbox: car.gearbox,
+            color: car.color,
+            insideColor: car.inside_color,
+            bodyStatus: car.body_status,
+          }}
+        />
       </div>
 
-      <ProductDescription className="flex lg:hidden border-t pt-3" />
+      <ProductDescription
+        description={car.description}
+        className="flex lg:hidden border-t pt-3"
+      />
 
-      <ProductTechnicalDetail className="flex lg:hidden" />
+      <ProductTechnicalDetail
+        {...car.technical_detail}
+        className="flex lg:hidden"
+      />
     </div>
   );
 }
