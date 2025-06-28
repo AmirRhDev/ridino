@@ -4,45 +4,48 @@ import CarKilometerIcon from "@/components/icons/carKilometerIcon";
 import ColorBrushIcon from "@/components/icons/colorBrushIcon";
 import GasIcon from "@/components/icons/gasIcon";
 import GearBoxIcon from "@/components/icons/gearBoxIcon";
+import { formatPrice } from "@/lib/utils";
+import { ProductType } from "@/types/product";
 import { ReactElement } from "react";
 
-function ProductMore() {
+//TODO: fix type later
+function ProductMore({ data }: { data: any }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 mt-5">
       <ProductMoreItem
         icon={<CarKilometerIcon className="size-7 m-1.5" />}
         title="کارکرد"
-        description="صفر کیلومتر"
+        description={`${formatPrice(data.kilometers)} km`}
       />
 
       <ProductMoreItem
         icon={<GasIcon className="size-7 m-1.5" />}
-        title="کارکرد"
-        description="صفر کیلومتر"
+        title="نوع سوخت"
+        description={data.gasType}
       />
 
       <ProductMoreItem
         icon={<GearBoxIcon className="size-7 m-1.5" />}
-        title="کارکرد"
-        description="صفر کیلومتر"
+        title="گیربکس"
+        description={data.gearbox}
       />
 
       <ProductMoreItem
         icon={<CarBodyIcon className="size-7 m-1.5" />}
-        title="کارکرد"
-        description="صفر کیلومتر"
+        title="وضعیت بدنه"
+        description={data.bodyStatus}
       />
 
       <ProductMoreItem
         icon={<ColorBrushIcon className="size-7 m-1.5" />}
-        title="کارکرد"
-        description="صفر کیلومتر"
+        title="رنگ بدنه"
+        description={data.color}
       />
 
       <ProductMoreItem
         icon={<CarChairIcon className="size-7 m-1.5" />}
-        title="کارکرد"
-        description="صفر کیلومتر"
+        title="رنگ داخلی"
+        description={data.insideColor}
       />
     </div>
   );
@@ -63,7 +66,7 @@ function ProductMoreItem({ icon, title, description }: ProductMoreItemProps) {
         {icon}
       </div>
       <span className="text-sm text-foreground/60">{title}</span>
-      <p className="font-semibold text-foreground">{description}</p>
+      <bdi className="font-semibold text-foreground">{description}</bdi>
     </div>
   );
 }

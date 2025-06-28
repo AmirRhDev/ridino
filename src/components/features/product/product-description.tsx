@@ -2,9 +2,10 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   className?: string;
+  description: string;
 }
 
-function ProductDescription({ className }: Props) {
+function ProductDescription({ className, description }: Props) {
   return (
     <div
       className={cn(
@@ -13,10 +14,7 @@ function ProductDescription({ className }: Props) {
       )}
     >
       <h3 className="font-semibold text-foreground sm:text-lg">توضیحات</h3>
-      <p className="text-sm sm:text-base text-foreground/80">
-        فروش فوری زیر قیمت بازار خشک مدارک آماده انتقال سند آزاد گارانتی فعال
-        تحویل فوری لطفا فقط تماس بگیرید عرشیا نادری
-      </p>
+      <p className="text-sm sm:text-base text-foreground/80">{description}</p>
     </div>
   );
 }

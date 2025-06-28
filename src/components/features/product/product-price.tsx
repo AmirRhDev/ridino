@@ -1,9 +1,10 @@
 import TomanIcon from "@/components/icons/tomanIcon";
+import { formatPrice } from "@/lib/utils";
 
-function ProductPrice() {
+function ProductPrice({ price }: { price: number }) {
   return (
     <p className="flex gap-1 font-semibold text-foreground">
-      <span>980,000,000</span>
+      <span>{formatPrice(price)}</span>
 
       <TomanIcon />
     </p>
