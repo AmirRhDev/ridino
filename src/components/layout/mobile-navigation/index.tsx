@@ -6,7 +6,7 @@ function MobileNavigation() {
     <nav className="fixed bottom-0 right-0 z-50 w-full grid grid-cols-3 items-center border-t border-foreground/50 bg-background py-2 md:hidden">
       <MobileNavigationLink
         href="/"
-        label="ماشین ها"
+        label="خودرو ها"
         icon={<Car size={20} />}
       />
 
