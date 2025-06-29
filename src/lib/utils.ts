@@ -11,8 +11,16 @@ export function timeAgo(isoDate: string): string {
 }
 
 export function formatPrice(
-  price: number,
+  value: number | string,
   lang: "fa-IR" | "en-US" = "fa-IR",
 ): string {
-  return price.toLocaleString(lang);
+  if (typeof value === "number") {
+    return value.toLocaleString(lang);
+  }
+
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function stripCommas(value: string) {
+  return value.replace(/,/g, "");
 }
