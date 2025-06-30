@@ -1,7 +1,7 @@
 import { Input } from "@/components/shadcnUi/input";
 import { Label } from "@/components/shadcnUi/label";
 import { cn, formatPrice, stripCommas } from "@/lib/utils";
-import { useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { type Ref, type InputHTMLAttributes } from "react";
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -9,6 +9,7 @@ type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   description?: string;
   error?: string;
   hasSeparator?: boolean;
+  extraOption?: ReactNode;
   ref?: Ref<HTMLInputElement>;
 };
 
@@ -21,11 +22,20 @@ const TextField = ({
   ref,
   onChange,
   value,
+  extraOption,
   ...rest
 }: TextFieldProps) => {
   const [localValue, setLocalValue] = useState(
     hasSeparator && typeof value === "string" ? formatPrice(value) : value,
   );
+
+  useEffect(() => {
+    if (hasSeparator && typeof value === "string") {
+      setLocalValue(formatPrice(value));
+    } else {
+      setLocalValue(value);
+    }
+  }, [value, hasSeparator]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
@@ -48,7 +58,10 @@ const TextField = ({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <Label className="text-xs sm:text-sm">{label}</Label>
+      <div className="flex justify-between items-center gap-2">
+        <Label className="text-xs sm:text-sm">{label}</Label>
+        {extraOption}
+      </div>
       <Input
         type="text"
         autoComplete="off"
