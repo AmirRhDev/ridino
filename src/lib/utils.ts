@@ -24,3 +24,27 @@ export function formatPrice(
 export function stripCommas(value: string) {
   return value.replace(/,/g, "");
 }
+
+//TODO: fix type
+export function parseToModel(data: any) {
+  return {
+    title: data.title,
+    year: data.year,
+    kilometers: data.kilometers,
+    gearbox: data.gearbox,
+    location: data.location,
+    price: data.price,
+    body_status: data.bodyStatus,
+    gas_type: data.gasType,
+    color: data.color,
+    inside_color: data.insideColor,
+    technical_detail: {
+      motor: data.motor,
+      acceleration: data.acceleration,
+      power: data.power,
+      fuelConsumption: data.fuelConsumption,
+      differential: data.differential,
+    },
+    description: data.description,
+  };
+}
