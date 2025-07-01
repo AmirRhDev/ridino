@@ -4,12 +4,23 @@ import CarKilometerIcon from "@/components/icons/carKilometerIcon";
 import ColorBrushIcon from "@/components/icons/colorBrushIcon";
 import GasIcon from "@/components/icons/gasIcon";
 import GearBoxIcon from "@/components/icons/gearBoxIcon";
+import { GASTYPE, GEARBOX } from "@/constants/forms";
 import { formatPrice } from "@/lib/utils";
-import { ProductType } from "@/types/product";
 import { ReactElement } from "react";
 
-//TODO: fix type later
-function ProductMore({ data }: { data: any }) {
+interface DataTypeProps {
+  kilometers: string;
+  gasType: string;
+  gearbox: string;
+  color: string;
+  insideColor: string;
+  bodyStatus: string;
+}
+
+function ProductMore({ data }: { data: DataTypeProps }) {
+  const gasTypeLabel = GASTYPE.find((d) => d.id === data.gasType)?.label;
+  const gearboxLabel = GEARBOX.find((d) => d.id === data.gearbox)?.label;
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 mt-5">
       <ProductMoreItem
@@ -21,13 +32,13 @@ function ProductMore({ data }: { data: any }) {
       <ProductMoreItem
         icon={<GasIcon className="size-7 m-1.5" />}
         title="نوع سوخت"
-        description={data.gasType}
+        description={gasTypeLabel!}
       />
 
       <ProductMoreItem
         icon={<GearBoxIcon className="size-7 m-1.5" />}
         title="گیربکس"
-        description={data.gearbox}
+        description={gearboxLabel!}
       />
 
       <ProductMoreItem

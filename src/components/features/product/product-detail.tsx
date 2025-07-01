@@ -1,3 +1,4 @@
+import { GEARBOX } from "@/constants/forms";
 import { formatPrice } from "@/lib/utils";
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
 }
 
 function ProductDetail({ year, kilometers, gearbox }: Props) {
+  const gearboxLabel = GEARBOX.find((d) => d.id === gearbox)?.label;
+
   return (
     <div className="flex items-center text-foreground/90 gap-1 mt-2.5">
       <p>{year}</p>
@@ -15,7 +18,7 @@ function ProductDetail({ year, kilometers, gearbox }: Props) {
         {kilometers !== 0 ? `${formatPrice(kilometers)} km` : "صفر کیلومتر"}
       </bdi>
       <span>-</span>
-      <p>{gearbox}</p>
+      <p>{gearboxLabel}</p>
     </div>
   );
 }
