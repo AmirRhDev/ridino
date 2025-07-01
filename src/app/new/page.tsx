@@ -17,15 +17,25 @@ import {
 } from "@/constants/forms";
 import { Label } from "@/components/shadcnUi/label";
 import { Checkbox } from "@/components/shadcnUi/checkbox";
+import TextAreaField from "@/components/common/text-area-field";
+import { parseToModel } from "@/lib/utils";
+import { supabase } from "@/lib/supabaseClient";
 
 const schema = z.object({
   title: z.string().min(3, "حداقل باید 3 کارکتر باشد"),
   year: z.string().min(1, "انتخاب سال ساخت الزامی است"),
-  kilometers: z.string(),
+  notDriven: z.boolean(),
+  kilometers: z.coerce
+    .number({ invalid_type_error: "کارکرد نامعتبر است" })
+    .positive()
+    .min(0, "کارکرد باید عددی مثبت باشد"),
   gearbox: z.string().min(1, "انتخاب نوع گیربکس الزامی است"),
   location: z.string().min(1, "انتخاب مکان آگهی الزامی است"),
   negotiated: z.boolean(),
-  price: z.number({ message: "فقط عدد امکان پذیر است" }),
+  price: z.coerce
+    .number({ invalid_type_error: "قیمت نامعتبر است" })
+    .positive()
+    .min(0, "قیمت باید عددی مثبت باشد"),
   gasType: z.string().min(1, "انتخاب نوع سوخت الزامی است"),
   clearBody: z.boolean(),
   bodyStatus: z.string(),
@@ -35,7 +45,8 @@ const schema = z.object({
   acceleration: z.string(),
   power: z.string(),
   fuelConsumption: z.string(),
-  differential: z.string(),
+  differential: z.string().optional(),
+  description: z.string().min(10, "حداقل باید 10 کارکتر باشد"),
 });
 
 type Schema = z.infer<typeof schema>;
@@ -54,19 +65,39 @@ function AddCarForm() {
     defaultValues: {
       title: "",
       year: "",
-      kilometers: "",
+      notDriven: false,
+      kilometers: "" as any,
       gearbox: "",
       location: "",
       negotiated: false,
-      price: 0,
+      price: "" as any,
       clearBody: false,
+      bodyStatus: "",
       gasType: "",
       color: "",
       insideColor: "",
+      motor: "",
+      acceleration: "",
+      power: "",
+      fuelConsumption: "",
+      differential: "",
+      description: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Schema> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const model = parseToModel(data);
+
+    console.log("model", model);
+
+    const { data: responseData, error } = await supabase
+      .from("cars")
+      .insert([model])
+      .select();
+
+    console.log("responseData", responseData);
+    console.log("error", error);
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -88,9 +119,9 @@ function AddCarForm() {
             const negotiated = watch("negotiated");
             return (
               <TextField
-                label="قیمت"
+                label="قیمت (تومان)"
                 error={errors.price?.message}
-                value={negotiated ? "0" : field.value}
+                value={negotiated ? "" : field.value}
                 onChange={field.onChange}
                 hasSeparator
                 disabled={negotiated}
@@ -106,7 +137,7 @@ function AddCarForm() {
                           onCheckedChange={(val) => {
                             const checked = !!val;
                             negotiatedField.onChange(checked);
-                            setValue("price", 0);
+                            setValue("price", "" as any);
                           }}
                           id="negotiated"
                         />
@@ -159,11 +190,42 @@ function AddCarForm() {
           )}
         </div>
 
-        <TextField
-          label="کارکرد (کیلومتر)"
-          error={errors.kilometers?.message}
-          {...register("kilometers")}
-          hasSeparator
+        <Controller
+          name="kilometers"
+          control={control}
+          render={({ field }) => {
+            const notDriven = watch("notDriven");
+            return (
+              <TextField
+                label="کارکرد (کیلومتر)"
+                error={errors.kilometers?.message}
+                value={notDriven ? "" : field.value}
+                onChange={field.onChange}
+                hasSeparator
+                disabled={notDriven}
+                extraOption={
+                  <Controller
+                    name="notDriven"
+                    control={control}
+                    render={({ field: notDrivenField }) => (
+                      <div className="flex items-center gap-1">
+                        <Label htmlFor="notDriven">صفر کیلومتر</Label>
+                        <Checkbox
+                          checked={notDrivenField.value || false}
+                          onCheckedChange={(val) => {
+                            const checked = !!val;
+                            notDrivenField.onChange(checked);
+                            setValue("kilometers", "" as any);
+                          }}
+                          id="notDriven"
+                        />
+                      </div>
+                    )}
+                  />
+                }
+              />
+            );
+          }}
         />
 
         <div className="space-y-2">
@@ -215,7 +277,7 @@ function AddCarForm() {
               <TextField
                 label="وضعیت بدنه"
                 error={errors.bodyStatus?.message}
-                value={clearBody ? "" : field.value}
+                value={clearBody ? "" : (field.value ?? "")}
                 onChange={field.onChange}
                 disabled={clearBody}
                 extraOption={
@@ -287,7 +349,7 @@ function AddCarForm() {
               <SelectField
                 label="دیفرانسیل"
                 data={DIFFERENTIAL}
-                value={field.value}
+                value={field.value ?? ""}
                 onValueChange={field.onChange}
               />
             )}
@@ -297,6 +359,14 @@ function AddCarForm() {
               {errors.differential.message}
             </span>
           )}
+        </div>
+
+        <div className="sm:col-span-2">
+          <TextAreaField
+            label="توضیحات"
+            error={errors.description?.message}
+            {...register("description")}
+          />
         </div>
 
         <div className="sm:col-span-2 flex flex-row-reverse">
