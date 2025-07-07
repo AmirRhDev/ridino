@@ -191,7 +191,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
           {files.length - maxFiles > 1 ? "s" : ""}.
         </p>
       )}
-      {files.length > 0 && !exceedMaxFiles && (
+      {/* {files.length > 0 && !exceedMaxFiles && (
         <div className="mt-2">
           <Button
             variant="outline"
@@ -208,7 +208,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
             )}
           </Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -224,23 +224,23 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
     <div className={cn("flex flex-col items-center gap-y-2", className)}>
       <Upload size={20} className="text-muted-foreground" />
       <p className="text-sm">
-        Upload{!!maxFiles && maxFiles > 1 ? ` ${maxFiles}` : ""} file
-        {!maxFiles || maxFiles > 1 ? "s" : ""}
+        حداکثر{!!maxFiles && maxFiles > 1 ? ` ${maxFiles}` : ""} فایل
+        {/* {!maxFiles || maxFiles > 1 ? "s" : ""} */}
       </p>
       <div className="flex flex-col items-center gap-y-1">
         <p className="text-xs text-muted-foreground">
-          Drag and drop or{" "}
+          فایل مورد نظرتون رو رها کنید یا{" "}
           <a
             onClick={() => inputRef.current?.click()}
             className="underline cursor-pointer transition hover:text-foreground"
           >
-            select {maxFiles === 1 ? `file` : "files"}
+            {maxFiles === 1 ? `فایل` : "فایل ها"} را انتخاب کنید
           </a>{" "}
-          to upload
+          تا آپلود شود
         </p>
         {maxFileSize !== Number.POSITIVE_INFINITY && (
           <p className="text-xs text-muted-foreground">
-            Maximum file size: {formatBytes(maxFileSize, 2)}
+            حداکثر حجم فایل: {formatBytes(maxFileSize, 2)}
           </p>
         )}
       </div>

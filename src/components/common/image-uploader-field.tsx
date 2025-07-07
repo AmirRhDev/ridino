@@ -5,19 +5,17 @@ import {
   DropzoneContent,
   DropzoneEmptyState,
 } from "@/components/shadcnUi/dropzone";
-import { useSupabaseUpload } from "@/hooks/use-supabase-upload";
+import { cn } from "@/lib/utils";
 
-function imageUploaderField() {
-  const props = useSupabaseUpload({
-    bucketName: "car-images",
-    path: "test",
-    allowedMimeTypes: ["image/*"],
-    maxFiles: 2,
-    maxFileSize: 1000 * 1000 * 10, // 10MB,
-  });
-
+function ImageUploaderField({
+  props,
+  className,
+}: {
+  props: any;
+  className?: string;
+}) {
   return (
-    <div className="w-full">
+    <div className={cn("w-full", className)}>
       <Dropzone {...props}>
         <DropzoneEmptyState />
         <DropzoneContent />
@@ -26,4 +24,4 @@ function imageUploaderField() {
   );
 }
 
-export default imageUploaderField;
+export default ImageUploaderField;

@@ -3,10 +3,12 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { v4 } from "uuid";
 
 import TextField from "@/components/common/text-field";
 import { Button } from "@/components/shadcnUi/button";
 import SelectField from "@/components/common/select-field";
+import ImageUploaderField from "@/components/common/image-uploader-field";
 
 import {
   DIFFERENTIAL,
@@ -53,6 +55,8 @@ type Schema = z.infer<typeof schema>;
 //TODO: fix controll error
 // TODO: required field when extra is uncheck
 function AddCarForm() {
+  const carId = v4();
+
   const {
     register,
     handleSubmit,
@@ -85,15 +89,24 @@ function AddCarForm() {
     },
   });
 
+  const uploadProps = useSupabaseUpload({
+    bucketName: "cars-images",
+    path: (file) => `${carId}/${crypto.randomUUID()}-${file.name}`,
+    allowedMimeTypes: ["image/*"],
+    maxFiles: 5,
+    maxFileSize: 10 * 1024 * 1024,
+  });
+
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    const model = parseToModel(data);
+    const model = parseToModel({ ...data, id: carId });
 
     console.log("model", model);
 
-    const { data: responseData, error } = await supabase
-      .from("cars")
-      .insert([model])
-      .select();
+    try {
+      const { data: car, error } = await supabase
+        .from("cars")
+        .insert([model])
+        .select();
 
     console.log("responseData", responseData);
     console.log("error", error);
@@ -106,6 +119,8 @@ function AddCarForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid sm:grid-cols-2 gap-5"
       >
+        <ImageUploaderField className="sm:col-span-2" props={uploadProps} />
+
         <TextField
           label="نام خودرو"
           error={errors.title?.message}
