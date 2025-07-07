@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "@/lib/dayjs";
+import { CarFormType } from "@/types/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,8 +27,9 @@ export function stripCommas(value: string) {
 }
 
 //TODO: fix type
-export function parseToModel(data: any) {
+export function parseToModel(data: CarFormType) {
   return {
+    id: data.id,
     title: data.title,
     year: data.year,
     kilometers: data.kilometers,

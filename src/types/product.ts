@@ -6,12 +6,12 @@ export interface TechnicalDetailType {
   differential: string;
 }
 
-export interface ProductType {
-  id: number;
+export interface CarType {
+  id: string;
   title: string;
   created_at: string;
   updated_at: string | null;
-  year: number;
+  year: string;
   price: number;
   location: string;
   kilometers: number;
@@ -22,4 +22,24 @@ export interface ProductType {
   inside_color: string;
   description: string;
   technical_detail: TechnicalDetailType;
+}
+
+export interface CarFormType {
+  id: string;
+  title: string;
+  year: string;
+  kilometers: number;
+  gearbox: string;
+  location: string;
+  price: number;
+  bodyStatus: string;
+  gasType: string;
+  color: string;
+  insideColor: string;
+  motor: string;
+  acceleration: string;
+  power: string;
+  fuelConsumption: string;
+  differential: string;
+  description: string;
 }

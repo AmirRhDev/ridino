@@ -1,8 +1,8 @@
-import { ProductType } from "@/types/product";
+import { CarType } from "@/types/product";
 import ProductCard from "./product-card";
 
 interface ProductListProps {
-  items?: ProductType[];
+  items?: CarType[];
 }
 
 function ProductList({ items }: ProductListProps) {
