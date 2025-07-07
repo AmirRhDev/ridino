@@ -10,7 +10,6 @@ import ProductCallCustomer from "@/components/features/product/product-call-cust
 import ProductMore from "@/components/features/product/product-more";
 import { supabase } from "@/lib/supabaseClient";
 import { timeAgo } from "@/lib/utils";
-
 interface CarDetailProps {
   params: Promise<{ id: string }>;
 }
@@ -26,10 +25,26 @@ async function CarDetail({ params }: CarDetailProps) {
 
   if (error) throw new Error(error.message);
 
+  const { data: images, error: listError } = await supabase.storage
+    .from("cars-images")
+    .list(`${id}/`, { limit: 100 });
+
+  console.log("images", images);
+
+  if (listError) throw new Error(listError.message);
+
+  const imageUrls = images
+    ?.map(
+      (img) =>
+        supabase.storage.from("cars-images").getPublicUrl(`${id}/${img.name}`)
+          .data.publicUrl,
+    )
+    .filter(Boolean);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
       <div className="lg:col-span-7 flex flex-col gap-1">
-        <ProductCarousel />
+        <ProductCarousel items={imageUrls} />
 
         <ProductDescription
           description={car.description}
@@ -42,7 +57,6 @@ async function CarDetail({ params }: CarDetailProps) {
         />
       </div>
 
-      {/* TODO: fix sticky later */}
       <div className="lg:col-span-4 flex flex-col gap-1 p-1 h-min lg:sticky lg:top-[80px]">
         <div className="flex justify-between items-center gap-3">
           <h1 className="font-semibold text-foreground text-xl">{car.title}</h1>

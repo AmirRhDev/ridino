@@ -2,16 +2,15 @@
 
 import Image from "next/image";
 
-import car from "../../../../public/car1.jpg";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-function ProductCarousel() {
+function ProductCarousel({ items }: { items: string[] }) {
   return (
+    //TODO: add full screen mode and change some styles
     <div className="w-full h-[400px]">
       <Swiper
         modules={[Pagination, Navigation]}
@@ -22,20 +21,16 @@ function ProductCarousel() {
         slidesPerView={1}
         className="w-full h-full rounded-xl overflow-hidden"
       >
-        <SwiperSlide key={1}>
-          <Image
-            alt="slide1"
-            className="w-full h-full object-cover"
-            src={car}
-          />
-        </SwiperSlide>
-        <SwiperSlide key={2}>
-          <Image
-            alt="slide1"
-            className="w-full h-full object-cover"
-            src={car}
-          />
-        </SwiperSlide>
+        {items?.map((url) => (
+          <SwiperSlide key={url}>
+            <Image
+              alt="Car Image"
+              className="w-full h-full object-cover"
+              src={url}
+              fill
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
