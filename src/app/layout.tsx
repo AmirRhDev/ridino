@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { Toaster } from "react-hot-toast";
+
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
@@ -31,6 +33,7 @@ export default function RootLayout({
         </Providers>
         <Footer />
         <MobileNavigation />
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );
