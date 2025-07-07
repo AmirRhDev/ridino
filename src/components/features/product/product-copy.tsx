@@ -2,13 +2,14 @@
 
 import { Copy } from "lucide-react";
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 function ProductCopy() {
   const pathname = usePathname();
 
   const copy = () => {
     navigator.clipboard.writeText(window.location.origin + pathname);
-    alert("Product Link Copied!"); //TODO: replace with toast
+    toast.success("لینک آگهی با موفقیت کپی شد");
   };
 
   return (
