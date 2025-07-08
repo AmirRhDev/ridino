@@ -27,6 +27,7 @@ export const carFormSchema = z.object({
   fuelConsumption: z.string(),
   differential: z.string(),
   description: z.string().min(10, "حداقل باید 10 کارکتر باشد"),
+  phone: z.string().min(11, "شماره موبایل باید 11 رقمی باشد"),
 });
 
 export type CarFormValues = z.infer<typeof carFormSchema>;

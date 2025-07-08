@@ -1,12 +1,25 @@
 "use client";
 
+import { useMemo, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { v4 } from "uuid";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
 
 import TextField from "@/components/common/text-field";
 import { Button } from "@/components/shadcnUi/button";
-import SelectField from "@/components/common/select-field";
+import { Label } from "@/components/shadcnUi/label";
+import { Checkbox } from "@/components/shadcnUi/checkbox";
+import TextAreaField from "@/components/common/text-area-field";
+import { ImageUploaderField } from "@/components/common/image-uploader-field";
+import SelectController from "@/components/common/select-controller";
+
+import { supabase } from "@/lib/supabaseClient";
+import { parseToModel } from "@/lib/utils";
+import { useSupabaseUpload } from "@/hooks/use-supabase-upload";
+import { uploadImages } from "@/services/car.service";
 
 import {
   DIFFERENTIAL,
@@ -15,23 +28,11 @@ import {
   PROVINCES,
   YEARS,
 } from "@/constants/forms";
-import { Label } from "@/components/shadcnUi/label";
-import { Checkbox } from "@/components/shadcnUi/checkbox";
-import TextAreaField from "@/components/common/text-area-field";
-import { parseToModel } from "@/lib/utils";
-import { supabase } from "@/lib/supabaseClient";
-import toast from "react-hot-toast";
-import { useSupabaseUpload } from "@/hooks/use-supabase-upload";
-import { uploadImages } from "@/services/car.service";
-import { ImageUploaderField } from "@/components/common/image-uploader-field";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { LoaderCircle } from "lucide-react";
 import { carFormSchema, CarFormValues } from "@/schemas/carFormSchema";
 
 // TODO: required field when extra is uncheck
 function AddCarForm() {
-  const carId = v4();
+  const [carId] = useState(() => v4());
 
   const router = useRouter();
 
@@ -44,7 +45,6 @@ function AddCarForm() {
     setValue,
     control,
     watch,
-    reset,
   } = useForm<CarFormValues>({
     resolver: zodResolver(carFormSchema),
     defaultValues: {
@@ -68,6 +68,7 @@ function AddCarForm() {
       fuelConsumption: "",
       differential: "",
       description: "",
+      phone: "",
     },
   });
 
@@ -164,44 +165,30 @@ function AddCarForm() {
           }}
         />
 
+        <TextField
+          label="شماره تماس"
+          error={errors.phone?.message}
+          {...register("phone")}
+        />
+
         <div className="space-y-2">
-          <Controller
+          <SelectController
             name="location"
             control={control}
-            render={({ field }) => (
-              <SelectField
-                label="مکان آگهی"
-                data={PROVINCES}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
+            data={PROVINCES}
+            label="مکان آگهی"
+            error={errors.location?.message}
           />
-          {errors.location && (
-            <span className="font-medium text-destructive text-xs">
-              {errors.location.message}
-            </span>
-          )}
         </div>
 
         <div className="space-y-2">
-          <Controller
+          <SelectController
             name="year"
             control={control}
-            render={({ field }) => (
-              <SelectField
-                label="سال ساخت"
-                data={YEARS}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
+            data={YEARS}
+            label="سال ساخت"
+            error={errors.year?.message}
           />
-          {errors.year && (
-            <span className="font-medium text-destructive text-xs">
-              {errors.year.message}
-            </span>
-          )}
         </div>
 
         <Controller
@@ -243,43 +230,23 @@ function AddCarForm() {
         />
 
         <div className="space-y-2">
-          <Controller
+          <SelectController
             name="gearbox"
             control={control}
-            render={({ field }) => (
-              <SelectField
-                label="گیربکس"
-                data={GEARBOX}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
+            data={GEARBOX}
+            label="گیربکس"
+            error={errors.gearbox?.message}
           />
-          {errors.gearbox && (
-            <span className="font-medium text-destructive text-xs">
-              {errors.gearbox.message}
-            </span>
-          )}
         </div>
 
         <div className="space-y-2">
-          <Controller
+          <SelectController
             name="gasType"
             control={control}
-            render={({ field }) => (
-              <SelectField
-                label="نوع سوخت"
-                data={GASTYPE}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
+            data={GASTYPE}
+            label="نوع سوخت"
+            error={errors.gasType?.message}
           />
-          {errors.gasType && (
-            <span className="font-medium text-destructive text-xs">
-              {errors.gasType.message}
-            </span>
-          )}
         </div>
 
         <Controller
@@ -356,23 +323,13 @@ function AddCarForm() {
         />
 
         <div className="space-y-2">
-          <Controller
+          <SelectController
             name="differential"
             control={control}
-            render={({ field }) => (
-              <SelectField
-                label="دیفرانسیل"
-                data={DIFFERENTIAL}
-                value={field.value ?? ""}
-                onValueChange={field.onChange}
-              />
-            )}
+            data={DIFFERENTIAL}
+            label="دیفرانسیل"
+            error={errors.differential?.message}
           />
-          {errors.differential && (
-            <span className="font-medium text-destructive text-xs">
-              {errors.differential.message}
-            </span>
-          )}
         </div>
 
         <div className="sm:col-span-2">
