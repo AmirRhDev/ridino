@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { v4 } from "uuid";
@@ -28,37 +27,8 @@ import { ImageUploaderField } from "@/components/common/image-uploader-field";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
+import { carFormSchema, CarFormValues } from "@/schemas/carFormSchema";
 
-const schema = z.object({
-  images: z.array(z.any()).min(1, "حداقل یک عکس بارگذاری کنید"),
-  title: z.string().min(3, "حداقل باید 3 کارکتر باشد"),
-  year: z.string().min(1, "انتخاب سال ساخت الزامی است"),
-  notDriven: z.boolean(),
-  kilometers: z.coerce
-    .number({ invalid_type_error: "کارکرد نامعتبر است" })
-    .positive("باید عددی بزرگتر از صفر وارد کنید")
-    .min(0, "کارکرد باید عددی مثبت باشد"),
-  gearbox: z.string().min(1, "انتخاب نوع گیربکس الزامی است"),
-  location: z.string().min(1, "انتخاب مکان آگهی الزامی است"),
-  negotiated: z.boolean(),
-  price: z.coerce
-    .number({ invalid_type_error: "قیمت نامعتبر است" })
-    .positive("باید عددی بزرگتر از صفر وارد کنید")
-    .min(0, "قیمت باید عددی مثبت باشد"),
-  gasType: z.string().min(1, "انتخاب نوع سوخت الزامی است"),
-  clearBody: z.boolean(),
-  bodyStatus: z.string(),
-  color: z.string().min(2, "حداقل باید 2 کارکتر باشد"),
-  insideColor: z.string().min(2, "حداقل باید 2 کارکتر باشد"),
-  motor: z.string(),
-  acceleration: z.string(),
-  power: z.string(),
-  fuelConsumption: z.string(),
-  differential: z.string(),
-  description: z.string().min(10, "حداقل باید 10 کارکتر باشد"),
-});
-
-type Schema = z.infer<typeof schema>;
 // TODO: required field when extra is uncheck
 function AddCarForm() {
   const carId = v4();
@@ -75,8 +45,8 @@ function AddCarForm() {
     control,
     watch,
     reset,
-  } = useForm<Schema>({
-    resolver: zodResolver(schema),
+  } = useForm<CarFormValues>({
+    resolver: zodResolver(carFormSchema),
     defaultValues: {
       images: [],
       title: "",
@@ -109,7 +79,7 @@ function AddCarForm() {
     maxFileSize: 10 * 1024 * 1024,
   });
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmit: SubmitHandler<CarFormValues> = async (data) => {
     const model = parseToModel({ ...data, id: carId });
 
     startTransition(async () => {
