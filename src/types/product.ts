@@ -1,3 +1,5 @@
+import { Control, UseFormWatch } from "react-hook-form";
+
 export interface TechnicalDetailType {
   motor: string;
   power: string;
@@ -43,3 +45,10 @@ export interface CarFormType {
   differential: string;
   description: string;
 }
+
+export type CustomControllerPropType = {
+  control: Control<any>;
+  watch: UseFormWatch<any>;
+  error?: string;
+  setValue: any; //TODO: fix type later
+};
