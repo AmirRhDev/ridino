@@ -29,8 +29,12 @@ import {
   YEARS,
 } from "@/constants/forms";
 import { carFormSchema, CarFormValues } from "@/schemas/carFormSchema";
+import PriceController from "@/components/common/price-controller";
+import KilometersController from "@/components/common/kilometers-controller";
+import BodyStatusController from "@/components/common/body-status-controller";
 
 // TODO: required field when extra is uncheck
+//TODO: add skeleton
 function AddCarForm() {
   const [carId] = useState(() => v4());
 
@@ -127,42 +131,11 @@ function AddCarForm() {
           {...register("title")}
         />
 
-        <Controller
-          name="price"
+        <PriceController
+          watch={watch}
           control={control}
-          render={({ field }) => {
-            const negotiated = watch("negotiated");
-            return (
-              <TextField
-                label="قیمت (تومان)"
-                error={errors.price?.message}
-                value={negotiated ? "" : field.value}
-                onChange={field.onChange}
-                hasSeparator
-                disabled={negotiated}
-                extraOption={
-                  <Controller
-                    name="negotiated"
-                    control={control}
-                    render={({ field: negotiatedField }) => (
-                      <div className="flex items-center gap-1">
-                        <Label htmlFor="negotiated">قیمت توافقی</Label>
-                        <Checkbox
-                          checked={negotiatedField.value || false}
-                          onCheckedChange={(val) => {
-                            const checked = !!val;
-                            negotiatedField.onChange(checked);
-                            setValue("price", "" as any);
-                          }}
-                          id="negotiated"
-                        />
-                      </div>
-                    )}
-                  />
-                }
-              />
-            );
-          }}
+          setValue={setValue}
+          error={errors.price?.message}
         />
 
         <TextField
@@ -191,42 +164,11 @@ function AddCarForm() {
           />
         </div>
 
-        <Controller
-          name="kilometers"
+        <KilometersController
+          watch={watch}
           control={control}
-          render={({ field }) => {
-            const notDriven = watch("notDriven");
-            return (
-              <TextField
-                label="کارکرد (کیلومتر)"
-                error={errors.kilometers?.message}
-                value={notDriven ? "" : field.value}
-                onChange={field.onChange}
-                hasSeparator
-                disabled={notDriven}
-                extraOption={
-                  <Controller
-                    name="notDriven"
-                    control={control}
-                    render={({ field: notDrivenField }) => (
-                      <div className="flex items-center gap-1">
-                        <Label htmlFor="notDriven">صفر کیلومتر</Label>
-                        <Checkbox
-                          checked={notDrivenField.value || false}
-                          onCheckedChange={(val) => {
-                            const checked = !!val;
-                            notDrivenField.onChange(checked);
-                            setValue("kilometers", "" as any);
-                          }}
-                          id="notDriven"
-                        />
-                      </div>
-                    )}
-                  />
-                }
-              />
-            );
-          }}
+          setValue={setValue}
+          error={errors.kilometers?.message}
         />
 
         <div className="space-y-2">
@@ -249,41 +191,11 @@ function AddCarForm() {
           />
         </div>
 
-        <Controller
-          name="bodyStatus"
+        <BodyStatusController
+          watch={watch}
           control={control}
-          render={({ field }) => {
-            const clearBody = watch("clearBody");
-            return (
-              <TextField
-                label="وضعیت بدنه"
-                error={errors.bodyStatus?.message}
-                value={clearBody ? "" : (field.value ?? "")}
-                onChange={field.onChange}
-                disabled={clearBody}
-                extraOption={
-                  <Controller
-                    name="clearBody"
-                    control={control}
-                    render={({ field: clearBodyField }) => (
-                      <div className="flex items-center gap-1">
-                        <Label htmlFor="clearBody">بی رنگ</Label>
-                        <Checkbox
-                          checked={clearBodyField.value || false}
-                          onCheckedChange={(val) => {
-                            const checked = !!val;
-                            clearBodyField.onChange(checked);
-                            setValue("bodyStatus", "");
-                          }}
-                          id="clearBody"
-                        />
-                      </div>
-                    )}
-                  />
-                }
-              />
-            );
-          }}
+          setValue={setValue}
+          error={errors.kilometers?.message}
         />
 
         <TextField
