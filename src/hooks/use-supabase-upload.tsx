@@ -23,7 +23,7 @@ type UseSupabaseUploadOptions = {
    *
    * e.g If specified path is `test`, your file will be uploaded as `test/file_name`
    */
-  path?: string;
+  path?: string | ((file: any) => string);
   /**
    * Allowed MIME types for each file upload (e.g `image/png`, `text/html`, etc). Wildcards are also supported (e.g `image/*`).
    *
@@ -158,6 +158,8 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
     setLoading(false);
   }, [files, path, bucketName, errors, successes]);
 
+  const clearFiles = () => setFiles([]);
+
   useEffect(() => {
     if (files.length === 0) {
       setErrors([]);
@@ -192,6 +194,7 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
     maxFiles: maxFiles,
     allowedMimeTypes,
     ...dropzoneProps,
+    clearFiles,
   };
 };
 
