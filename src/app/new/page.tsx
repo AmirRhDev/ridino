@@ -8,7 +8,6 @@ import { v4 } from "uuid";
 import TextField from "@/components/common/text-field";
 import { Button } from "@/components/shadcnUi/button";
 import SelectField from "@/components/common/select-field";
-import ImageUploaderField from "@/components/common/image-uploader-field";
 
 import {
   DIFFERENTIAL,
@@ -22,21 +21,29 @@ import { Checkbox } from "@/components/shadcnUi/checkbox";
 import TextAreaField from "@/components/common/text-area-field";
 import { parseToModel } from "@/lib/utils";
 import { supabase } from "@/lib/supabaseClient";
+import toast from "react-hot-toast";
+import { useSupabaseUpload } from "@/hooks/use-supabase-upload";
+import { uploadImages } from "@/services/car.service";
+import { ImageUploaderField } from "@/components/common/image-uploader-field";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
 
 const schema = z.object({
+  images: z.array(z.any()).min(1, "حداقل یک عکس بارگذاری کنید"),
   title: z.string().min(3, "حداقل باید 3 کارکتر باشد"),
   year: z.string().min(1, "انتخاب سال ساخت الزامی است"),
   notDriven: z.boolean(),
   kilometers: z.coerce
     .number({ invalid_type_error: "کارکرد نامعتبر است" })
-    .positive()
+    .positive("باید عددی بزرگتر از صفر وارد کنید")
     .min(0, "کارکرد باید عددی مثبت باشد"),
   gearbox: z.string().min(1, "انتخاب نوع گیربکس الزامی است"),
   location: z.string().min(1, "انتخاب مکان آگهی الزامی است"),
   negotiated: z.boolean(),
   price: z.coerce
     .number({ invalid_type_error: "قیمت نامعتبر است" })
-    .positive()
+    .positive("باید عددی بزرگتر از صفر وارد کنید")
     .min(0, "قیمت باید عددی مثبت باشد"),
   gasType: z.string().min(1, "انتخاب نوع سوخت الزامی است"),
   clearBody: z.boolean(),
@@ -47,15 +54,18 @@ const schema = z.object({
   acceleration: z.string(),
   power: z.string(),
   fuelConsumption: z.string(),
-  differential: z.string().optional(),
+  differential: z.string(),
   description: z.string().min(10, "حداقل باید 10 کارکتر باشد"),
 });
 
 type Schema = z.infer<typeof schema>;
-//TODO: fix controll error
 // TODO: required field when extra is uncheck
 function AddCarForm() {
   const carId = v4();
+
+  const router = useRouter();
+
+  const [pending, startTransition] = useTransition();
 
   const {
     register,
@@ -64,9 +74,11 @@ function AddCarForm() {
     setValue,
     control,
     watch,
+    reset,
   } = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
+      images: [],
       title: "",
       year: "",
       notDriven: false,
@@ -100,26 +112,43 @@ function AddCarForm() {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     const model = parseToModel({ ...data, id: carId });
 
-    console.log("model", model);
+    startTransition(async () => {
+      try {
+        const { data: car, error } = await supabase
+          .from("cars")
+          .insert([model])
+          .select()
+          .single();
 
-    try {
-      const { data: car, error } = await supabase
-        .from("cars")
-        .insert([model])
-        .select();
+        if (error) throw error;
 
-    console.log("responseData", responseData);
-    console.log("error", error);
+        await uploadImages(carId, uploadProps.acceptedFiles);
+
+        toast.success("عملیات با موفقیت انجام شد");
+
+        router.push(`/car/${car.id}`);
+      } catch (err) {
+        console.log("unexpected happen", err);
+        toast.error("خطایی رخ داده است، لطفا دوباره تلاش کنید");
+      }
+    });
   };
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-foreground text-2xl font-bold">افزودن خودرو جدید</h1>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, (error: any) =>
+          console.log("error", error),
+        )}
         className="grid sm:grid-cols-2 gap-5"
       >
-        <ImageUploaderField className="sm:col-span-2" props={uploadProps} />
+        <ImageUploaderField
+          control={control}
+          name="images"
+          uploadProps={uploadProps}
+          className="sm:col-span-2"
+        />
 
         <TextField
           label="نام خودرو"
@@ -384,9 +413,10 @@ function AddCarForm() {
           />
         </div>
 
-        <div className="sm:col-span-2 flex flex-row-reverse">
-          <Button type="submit" className="w-full sm:w-auto">
-            ثبت
+        <div className="sm:col-span-2 flex flex-row-reverse gap-2">
+          <Button disabled={pending} type="submit" className="w-full sm:w-auto">
+            {pending && <LoaderCircle className="size-5 animate-spin " />}
+            ثبت خودرو
           </Button>
         </div>
       </form>
