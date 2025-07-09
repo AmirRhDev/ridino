@@ -4,9 +4,9 @@ import { formatPrice } from "@/lib/utils";
 function ProductPrice({ price }: { price: number }) {
   return (
     <p className="flex gap-1 font-semibold text-foreground">
-      <span>{formatPrice(price)}</span>
+      <span>{!price ? "توافقی" : formatPrice(price)}</span>
 
-      <TomanIcon />
+      {!!price && <TomanIcon />}
     </p>
   );
 }

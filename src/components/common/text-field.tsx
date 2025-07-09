@@ -1,6 +1,9 @@
+"use client";
+
 import { Input } from "@/components/shadcnUi/input";
 import { Label } from "@/components/shadcnUi/label";
 import { cn, formatPrice, stripCommas } from "@/lib/utils";
+import { EyeIcon, EyeOff } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { type Ref, type InputHTMLAttributes } from "react";
 
@@ -23,11 +26,14 @@ const TextField = ({
   onChange,
   value,
   extraOption,
+  type,
   ...rest
 }: TextFieldProps) => {
   const [localValue, setLocalValue] = useState(
     hasSeparator && typeof value === "string" ? formatPrice(value) : value,
   );
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (hasSeparator && typeof value === "string") {
@@ -56,20 +62,38 @@ const TextField = ({
     }
   };
 
+  const finalType =
+    type === "password" ? (showPassword ? "text" : "password") : type;
+
   return (
     <div className={cn("space-y-2", className)}>
       <div className="flex justify-between items-center gap-2">
         <Label className="text-xs sm:text-sm">{label}</Label>
         {extraOption}
       </div>
-      <Input
-        type="text"
-        autoComplete="off"
-        ref={ref}
-        {...rest}
-        value={hasSeparator ? localValue : value}
-        onChange={handleChange}
-      />
+      <div className="relative">
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="cursor-pointer absolute left-1 top-[5px] text-muted-foreground bg-input"
+          >
+            {showPassword ? (
+              <EyeOff className="w-[22px]" />
+            ) : (
+              <EyeIcon className="w-[22px]" />
+            )}
+          </button>
+        )}
+        <Input
+          type={finalType}
+          autoComplete="off"
+          ref={ref}
+          {...rest}
+          value={hasSeparator ? localValue : value}
+          onChange={handleChange}
+        />
+      </div>
       {description && (
         <span className="text-muted-foreground text-xs">{description}</span>
       )}

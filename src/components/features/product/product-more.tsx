@@ -26,7 +26,11 @@ function ProductMore({ data }: { data: DataTypeProps }) {
       <ProductMoreItem
         icon={<CarKilometerIcon className="size-7 m-1.5" />}
         title="کارکرد"
-        description={`${formatPrice(data.kilometers)} km`}
+        description={
+          !data.kilometers
+            ? "صفر کیلومتر"
+            : `${formatPrice(data.kilometers)} km`
+        }
       />
 
       <ProductMoreItem
@@ -44,7 +48,7 @@ function ProductMore({ data }: { data: DataTypeProps }) {
       <ProductMoreItem
         icon={<CarBodyIcon className="size-7 m-1.5" />}
         title="وضعیت بدنه"
-        description={data.bodyStatus}
+        description={!data.bodyStatus ? "بی رنگ" : data.bodyStatus}
       />
 
       <ProductMoreItem
