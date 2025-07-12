@@ -10,8 +10,6 @@ import { LoaderCircle } from "lucide-react";
 
 import TextField from "@/components/common/text-field";
 import { Button } from "@/components/shadcnUi/button";
-import { Label } from "@/components/shadcnUi/label";
-import { Checkbox } from "@/components/shadcnUi/checkbox";
 import TextAreaField from "@/components/common/text-area-field";
 import { ImageUploaderField } from "@/components/common/image-uploader-field";
 import SelectController from "@/components/common/select-controller";

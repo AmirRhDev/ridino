@@ -1,7 +1,8 @@
 import { Button } from "@/components/shadcnUi/button";
 import NavList from "./nav-list";
 import SidebarLogo from "./sidebar-logo";
-import { LogIn } from "lucide-react";
+import ToggleTheme from "@/components/common/toggle-theme";
+import AuthSection from "./auth-section";
 
 function Header() {
   return (
@@ -11,9 +12,11 @@ function Header() {
         <NavList />
       </nav>
 
-      <Button size={"lg"}>
-        ورود <LogIn />
-      </Button>
+      <div className="flex items-center gap-2">
+        <ToggleTheme />
+
+        <AuthSection />
+      </div>
     </header>
   );
 }
