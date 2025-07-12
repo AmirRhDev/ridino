@@ -11,9 +11,13 @@ import TextField from "@/components/common/text-field";
 import AuthCard from "@/components/features/auth/auth-card";
 
 import { SignUpFormValues, signUpSchema } from "@/schemas/carFormSchema";
-import { supabaseSignUp } from "@/lib/auth";
+import { supabaseSignIn, supabaseSignUp } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
-function SignUp({ className, ...props }: React.ComponentProps<"div">) {
+function SignUp() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   const {
@@ -24,13 +28,23 @@ function SignUp({ className, ...props }: React.ComponentProps<"div">) {
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async (data: SignUpFormValues) => {
+  const onSubmit = async ({ email, password }: SignUpFormValues) => {
     setLoading(true);
     try {
-      await supabaseSignUp(data.email, data.password);
+      const signUpData = await supabaseSignUp(email, password);
+
+      if (!signUpData.session) {
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (loginError) throw loginError;
+      }
+
       toast.success("ثبت نام با موفقیت انجام شد");
 
-      // TODO: Optional: redirect or show success
+      router.replace("/");
     } catch (err: any) {
       toast.error(err.message || "خطایی رخ داد");
     } finally {
@@ -49,41 +63,35 @@ function SignUp({ className, ...props }: React.ComponentProps<"div">) {
             </p>
           </div>
 
-          <div className="grid gap-3">
-            <TextField
-              label="ایمیل"
-              placeholder="m@example.com"
-              dir="ltr"
-              {...register("email")}
-              error={errors.email?.message}
-            />
-          </div>
+          <TextField
+            label="ایمیل"
+            placeholder="m@example.com"
+            dir="ltr"
+            {...register("email")}
+            error={errors.email?.message}
+          />
 
-          <div className="grid gap-3">
-            <TextField
-              label="رمزعبور"
-              type="password"
-              {...register("password")}
-              error={errors.password?.message}
-              extraOption={
-                <Link
-                  href="#"
-                  className="mr-auto text-sm underline-offset-2 hover:underline"
-                >
-                  رمز خود را فراموش کردید؟
-                </Link>
-              }
-            />
-          </div>
+          <TextField
+            label="رمزعبور"
+            type="password"
+            {...register("password")}
+            error={errors.password?.message}
+            extraOption={
+              <Link
+                href="#"
+                className="mr-auto text-sm underline-offset-2 hover:underline"
+              >
+                رمز خود را فراموش کردید؟
+              </Link>
+            }
+          />
 
-          <div className="grid gap-3">
-            <TextField
-              label="تکرار رمزعبور"
-              type="password"
-              {...register("confirmPassword")}
-              error={errors.confirmPassword?.message}
-            />
-          </div>
+          <TextField
+            label="تکرار رمزعبور"
+            type="password"
+            {...register("confirmPassword")}
+            error={errors.confirmPassword?.message}
+          />
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? (
@@ -120,9 +128,9 @@ function SignUp({ className, ...props }: React.ComponentProps<"div">) {
 
           <div className="text-center text-sm">
             حساب کاربری دارید؟{" "}
-            <a href="#" className="underline underline-offset-4">
+            <Link href="/sign-in" className="underline underline-offset-4">
               وارد شوید
-            </a>
+            </Link>
           </div>
         </div>
       </form>
