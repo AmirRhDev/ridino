@@ -25,13 +25,13 @@ export default function RootLayout({
         dir="rtl"
         className={"antialiased bg-background min-h-screen font-[YekanBakh]"}
       >
-        <Header />
         <Providers>
+          <Header />
           <main className="min-h-screen px-8 sm:px-11 py-12 sm:py-16">
             {children}
           </main>
+          <Footer />
         </Providers>
-        <Footer />
         <MobileNavigation />
         <Toaster position="bottom-center" />
       </body>
