@@ -52,3 +52,11 @@ export type CustomControllerPropType = {
   error?: string;
   setValue: any; //TODO: fix type later
 };
+
+export type FilterStateType = {
+  searchedTitle?: string;
+  hasFixedPrice?: boolean;
+  sort?: "oldest" | "newest";
+};
+
+export type SortFilterType = "newest" | "oldest";
