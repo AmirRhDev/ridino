@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { v4 } from "uuid";
@@ -30,10 +30,12 @@ import { carFormSchema, CarFormValues } from "@/schemas/carFormSchema";
 import PriceController from "@/components/common/price-controller";
 import KilometersController from "@/components/common/kilometers-controller";
 import BodyStatusController from "@/components/common/body-status-controller";
+import { useAuth } from "@/components/providers/auth-provider";
 
-// TODO: required field when extra is uncheck
 //TODO: add skeleton
 function AddCarForm() {
+  const { user } = useAuth();
+
   const [carId] = useState(() => v4());
 
   const router = useRouter();
@@ -83,7 +85,7 @@ function AddCarForm() {
   });
 
   const onSubmit: SubmitHandler<CarFormValues> = async (data) => {
-    const model = parseToModel({ ...data, id: carId });
+    const model = parseToModel({ ...data, id: carId, user_id: user?.id! });
 
     startTransition(async () => {
       try {
@@ -99,7 +101,7 @@ function AddCarForm() {
 
         toast.success("عملیات با موفقیت انجام شد");
 
-        router.push(`/car/${car.id}`);
+        router.push(`/cars/${car.id}`);
       } catch (err) {
         console.log("unexpected happen", err);
         toast.error("خطایی رخ داده است، لطفا دوباره تلاش کنید");
