@@ -24,6 +24,7 @@ export interface CarType {
   inside_color: string;
   description: string;
   technical_detail: TechnicalDetailType;
+  car_images: { url: string }[];
 }
 
 export interface CarFormType {
@@ -44,6 +45,7 @@ export interface CarFormType {
   fuelConsumption: string;
   differential: string;
   description: string;
+  user_id: string;
 }
 
 export type CustomControllerPropType = {
