@@ -26,10 +26,10 @@ export function stripCommas(value: string) {
   return value.replace(/,/g, "");
 }
 
-//TODO: fix type
 export function parseToModel(data: CarFormType) {
   return {
     id: data.id,
+    user_id: data.user_id,
     title: data.title,
     year: data.year,
     kilometers: data.kilometers,
