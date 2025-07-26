@@ -1,5 +1,5 @@
 import { FilterStateType } from "@/types/product";
-import ProductList from "../product-list/product-list";
+import ProductList from "@/components/features/product-list/product-list";
 import { supabase } from "@/lib/supabaseClient";
 
 export const AllProduct = async ({
@@ -7,7 +7,10 @@ export const AllProduct = async ({
   hasFixedPrice,
   sort = "newest",
 }: FilterStateType) => {
-  let query = supabase.from("cars").select("*");
+  let query = supabase
+    .from("cars")
+    .select("*, car_images(url)")
+    .order("created_at", { ascending: sort === "oldest" });
 
   if (searchedTitle) {
     query = query.ilike("title", `%${searchedTitle}%`);
@@ -16,8 +19,6 @@ export const AllProduct = async ({
   if (hasFixedPrice) {
     query = query.gt("price", 0);
   }
-
-  query = query.order("created_at", { ascending: sort === "oldest" });
 
   const { data, error } = await query;
 
