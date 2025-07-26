@@ -1,9 +1,9 @@
 import SearchField from "@/components/common/search-field";
-import SwitchField from "@/components/common/switch-field";
 import Hero from "@/components/features/hero";
 import { AllProduct } from "@/components/features/product-list-container";
 import CategoryList from "@/components/features/product-list/category-list";
 import { ProductsSortFilter } from "@/components/features/product-list/product-sort-filter";
+import ProductStaticFilter from "@/components/features/product-list/product-static-filter";
 import { SortFilterType } from "@/types/product";
 
 interface HomeProps {
@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
           <ProductsSortFilter defaultValue={sort} />
 
-          <SwitchField defaultValue={hasFixedPrice} />
+          <ProductStaticFilter defaultValue={hasFixedPrice} />
         </div>
 
         <CategoryList />
