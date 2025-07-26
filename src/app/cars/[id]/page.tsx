@@ -25,19 +25,14 @@ async function CarDetail({ params }: CarDetailProps) {
 
   if (error) throw new Error(error.message);
 
-  const { data: images, error: listError } = await supabase.storage
-    .from("cars-images")
-    .list(`${id}/`, { limit: 100 });
+  const { data: images, error: listError } = await supabase
+    .from("car_images")
+    .select("url")
+    .eq("car_id", id);
 
   if (listError) throw new Error(listError.message);
 
-  const imageUrls = images
-    ?.map(
-      (img) =>
-        supabase.storage.from("cars-images").getPublicUrl(`${id}/${img.name}`)
-          .data.publicUrl,
-    )
-    .filter(Boolean);
+  const imageUrls = images?.map((img) => img.url).filter(Boolean);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
@@ -82,7 +77,7 @@ async function CarDetail({ params }: CarDetailProps) {
           <ProductPrice price={car.price} />
         </div>
 
-        <ProductCallCustomer />
+        <ProductCallCustomer phone={car.phone} />
 
         <ProductMore
           data={{
