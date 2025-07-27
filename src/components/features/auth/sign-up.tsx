@@ -46,7 +46,11 @@ function SignUp() {
 
       router.replace("/");
     } catch (err: any) {
-      toast.error(err.message || "خطایی رخ داد");
+      toast.error(
+        err.message === "User already registered"
+          ? "کاربر از قبل ثبت نام کرده‌ است"
+          : err.message || "خطایی رخ داد",
+      );
     } finally {
       setLoading(false);
     }
