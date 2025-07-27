@@ -1,20 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { MapPin } from "lucide-react";
 
 import { Badge } from "@/components/shadcnUi/badge";
 
-import TomanIcon from "@/components/icons/tomanIcon";
-import { MapPin } from "lucide-react";
-
-import carImage from "../../../../public/car1.jpg";
-import Link from "next/link";
-import { CarType } from "@/types/product";
 import { formatPrice, timeAgo } from "@/lib/utils";
+
+import { CarType } from "@/types/product";
 import { GEARBOX, PROVINCES } from "@/constants/forms";
-import { supabase } from "@/lib/supabaseClient";
+
+import TomanIcon from "@/components/icons/tomanIcon";
 
 type Props = CarType;
 
-async function ProductCard({
+function ProductCard({
   id,
   title,
   created_at,
@@ -23,23 +23,12 @@ async function ProductCard({
   gearbox,
   location,
   price,
+  car_images,
 }: Props) {
   const gearboxLabel = GEARBOX.find((d) => d.id === gearbox)?.label;
   const locationLabel = PROVINCES.find((d) => d.id === location)?.label;
 
-  const { data: images, error: listError } = await supabase.storage
-    .from("cars-images")
-    .list(`${id}/`, { limit: 100 });
-
-  if (listError) throw new Error(listError.message);
-
-  const firstImage = images?.[0];
-
-  const firstImageUrl = firstImage
-    ? supabase.storage
-        .from("cars-images")
-        .getPublicUrl(`${id}/${firstImage.name}`).data.publicUrl
-    : null;
+  const firstImageUrl = car_images?.[0]?.url;
 
   return (
     <Link
@@ -48,7 +37,7 @@ async function ProductCard({
     >
       <Image
         className="w-full rounded-t aspect-[4/3] "
-        src={firstImageUrl ?? carImage} //TODO: replace carImage to car thumbnail
+        src={firstImageUrl}
         alt="car image"
         width={400}
         height={300}
