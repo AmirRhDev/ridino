@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const protectedRoutes = ["/new"];
+  const protectedRoutes = ["/new", "/dashboard"];
   const authRoutes = ["/sign-in", "/sign-up"];
 
   if (user && authRoutes.some((route) => pathname.startsWith(route))) {
@@ -25,5 +25,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/sign-in", "/sign-up", "/new/:path*"],
+  matcher: ["/sign-in", "/sign-up", "/new/:path*", "/dashboard/:path*"],
 };
