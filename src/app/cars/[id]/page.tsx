@@ -10,6 +10,7 @@ import ProductCallCustomer from "@/components/features/product/product-call-cust
 import ProductMore from "@/components/features/product/product-more";
 import { supabase } from "@/lib/supabaseClient";
 import { timeAgo } from "@/lib/utils";
+import ProductEdit from "@/components/features/product/product-edit";
 interface CarDetailProps {
   params: Promise<{ id: string }>;
 }
@@ -55,6 +56,8 @@ async function CarDetail({ params }: CarDetailProps) {
           <h1 className="font-semibold text-foreground text-xl">{car.title}</h1>
 
           <div className="flex items-center gap-3.5">
+            <ProductEdit carId={car.id} userId={car.user_id} />
+
             <ProductCopy />
 
             <ProductLike />
