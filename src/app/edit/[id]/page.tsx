@@ -1,7 +1,7 @@
 import EditCarForm from "@/components/features/car-form/edit-car-form";
 import { getCarById } from "@/services/car.service";
 
-async function EditCarPage({ params }: { params: { id: string } }) {
+async function EditCarPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const car = await getCarById(id);
 
