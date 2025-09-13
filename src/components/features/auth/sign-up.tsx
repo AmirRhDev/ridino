@@ -11,7 +11,7 @@ import TextField from "@/components/common/text-field";
 import AuthCard from "@/components/features/auth/auth-card";
 
 import { SignUpFormValues, signUpSchema } from "@/schemas/carFormSchema";
-import { supabaseSignIn, supabaseSignUp } from "@/lib/auth";
+import { supabaseSignUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -28,10 +28,25 @@ function SignUp() {
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async ({ email, password }: SignUpFormValues) => {
+  const onSubmit = async ({
+    firstName,
+    lastName,
+    email,
+    password,
+  }: SignUpFormValues) => {
     setLoading(true);
     try {
       const signUpData = await supabaseSignUp(email, password);
+
+      if (signUpData.user) {
+        const { error: profileError } = await supabase.from("profiles").insert({
+          id: signUpData.user.id,
+          first_name: firstName,
+          last_name: lastName,
+        });
+
+        if (profileError) throw profileError;
+      }
 
       if (!signUpData.session) {
         const { error: loginError } = await supabase.auth.signInWithPassword({
@@ -43,7 +58,6 @@ function SignUp() {
       }
 
       toast.success("ثبت نام با موفقیت انجام شد");
-
       router.replace("/");
     } catch (err: any) {
       toast.error(
@@ -66,6 +80,20 @@ function SignUp() {
               یک حساب کاربری برای خود بسازید
             </p>
           </div>
+
+          <TextField
+            label="نام"
+            placeholder="نام خود را وارد کنید"
+            {...register("firstName")}
+            error={errors.firstName?.message}
+          />
+
+          <TextField
+            label="نام خانوادگی"
+            placeholder="نام خانوادگی خود را وارد کنید"
+            {...register("lastName")}
+            error={errors.lastName?.message}
+          />
 
           <TextField
             label="ایمیل"
