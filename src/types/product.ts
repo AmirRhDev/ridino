@@ -10,31 +10,33 @@ export interface TechnicalDetailType {
 
 export interface CarType {
   id: string;
+  user_id: string;
   title: string;
-  created_at: string;
-  updated_at: string | null;
+  created_at?: string;
+  updated_at?: string | null;
   year: string;
-  price: number;
+  price: number | undefined;
   location: string;
-  kilometers: number;
+  kilometers: number | undefined;
   gas_type: string;
   gearbox: string;
   body_status: string;
   color: string;
   inside_color: string;
   description: string;
-  technical_detail: TechnicalDetailType;
-  car_images: { url: string }[];
+  technical_detail?: TechnicalDetailType;
+  car_images?: { url: string }[];
+  phone: string;
 }
 
 export interface CarFormType {
   id: string;
   title: string;
   year: string;
-  kilometers: number;
+  kilometers?: number | undefined;
   gearbox: string;
   location: string;
-  price: number;
+  price?: number | undefined;
   bodyStatus: string;
   gasType: string;
   color: string;
@@ -46,6 +48,7 @@ export interface CarFormType {
   differential: string;
   description: string;
   user_id: string;
+  phone: string;
 }
 
 export type CustomControllerPropType = {
