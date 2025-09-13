@@ -1,8 +1,8 @@
 import SearchField from "@/components/common/search-field";
-import SwitchField from "@/components/common/switch-field";
 import { AllProduct } from "@/components/features/product-list-container";
 import ProductLoader from "@/components/features/product-list/product-loader";
 import { ProductsSortFilter } from "@/components/features/product-list/product-sort-filter";
+import ProductStaticFilter from "@/components/features/product-list/product-static-filter";
 import { SortFilterType } from "@/types/product";
 import { Suspense } from "react";
 
@@ -24,7 +24,7 @@ async function page({ searchParams }: Props) {
 
           <ProductsSortFilter />
 
-          <SwitchField />
+          <ProductStaticFilter defaultValue={hasFixedPrice} />
         </div>
 
         {/* <CategoryList /> */}
