@@ -1,34 +1,28 @@
 import { supabase } from "@/lib/supabaseClient";
+import { validate as isUuid } from "uuid";
 
-export const uploadImages = async (carId: string, files: readonly File[]) => {
-  const uploadedUrls: string[] = [];
-
-  for (const file of files) {
-    const filePath = `${carId}/${crypto.randomUUID()}-${file.name}`;
-
-    const { data, error } = await supabase.storage
-      .from("cars-images")
-      .upload(filePath, file);
-
-    if (error) throw error;
-
-    const publicUrl = supabase.storage
-      .from("cars-images")
-      .getPublicUrl(filePath).data.publicUrl;
-
-    uploadedUrls.push(publicUrl);
-
-    const { error: insertError } = await supabase.from("car_images").insert({
-      car_id: carId,
-      url: publicUrl,
-    });
-
-    if (insertError) {
-      console.log("insertError", insertError);
-      console.error("Failed to save image metadata:", insertError.message);
-      // TODO: handle error
-    }
+export async function getCarById(id: string) {
+  if (!isUuid(id)) {
+    throw new Error(`Invalid car ID: ${id}`);
   }
 
-  return uploadedUrls;
-};
+  const { data: car, error: carError } = await supabase
+    .from("cars")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (carError) throw new Error(carError.message);
+
+  const { data: images, error: imageError } = await supabase
+    .from("car_images")
+    .select("url")
+    .eq("car_id", id);
+
+  if (imageError) throw new Error(imageError.message);
+
+  return {
+    ...car,
+    car_images: images?.map((img) => img.url) ?? [],
+  };
+}
