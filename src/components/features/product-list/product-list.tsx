@@ -1,6 +1,7 @@
 import { CarType } from "@/types/product";
 import ProductCard from "./product-card";
 import { cn } from "@/lib/utils";
+import EmptyList from "@/components/common/empty-list";
 
 interface ProductListProps {
   items?: CarType[];
@@ -8,6 +9,10 @@ interface ProductListProps {
 }
 
 function ProductList({ items, className }: ProductListProps) {
+  if (!items || !items?.length) {
+    return <EmptyList className="mt-10" />;
+  }
+
   return (
     <div
       className={cn(
