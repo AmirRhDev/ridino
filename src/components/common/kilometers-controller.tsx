@@ -36,7 +36,7 @@ function KilometersController({
                       onCheckedChange={(val) => {
                         const checked = !!val;
                         notDrivenField.onChange(checked);
-                        setValue("kilometers", "" as any);
+                        setValue("kilometers", undefined);
                       }}
                       id="notDriven"
                     />

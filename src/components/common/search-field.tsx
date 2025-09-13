@@ -26,10 +26,7 @@ function SearchField({ defaultValue = "" }: { defaultValue?: string }) {
       <Search className="absolute right-4 size-4 text-foreground/65" />
       <Input
         value={value}
-        onChange={(e) => {
-          console.log("tart", e.target.value);
-          setValue(e.target.value);
-        }}
+        onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSearch();

@@ -44,11 +44,10 @@ const TextField = ({
   }, [value, hasSeparator]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = e.target.value;
+    const inputValue = e.target.value;
 
     if (hasSeparator) {
       const numericValue = stripCommas(inputValue);
-      // Update local (formatted) value
       setLocalValue(formatPrice(numericValue));
       onChange?.({
         ...e,

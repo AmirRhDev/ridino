@@ -36,7 +36,7 @@ function PriceController({
                       onCheckedChange={(val) => {
                         const checked = !!val;
                         negotiatedField.onChange(checked);
-                        setValue("price", "" as any);
+                        setValue("price", undefined);
                       }}
                       id="negotiated"
                     />

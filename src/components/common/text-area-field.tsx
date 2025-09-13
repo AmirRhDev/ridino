@@ -15,8 +15,6 @@ const TextAreaField = ({
   description,
   error,
   className,
-  onChange,
-  value,
   ref,
   ...rest
 }: TextFieldProps) => {
