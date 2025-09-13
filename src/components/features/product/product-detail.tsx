@@ -15,7 +15,7 @@ function ProductDetail({ year, kilometers, gearbox }: Props) {
       <p>{year}</p>
       <span>-</span>
       <bdi>
-        {kilometers !== 0 ? `${formatPrice(kilometers)} km` : "صفر کیلومتر"}
+        {!!kilometers ? `${formatPrice(kilometers)} km` : "صفر کیلومتر"}
       </bdi>
       <span>-</span>
       <p>{gearboxLabel}</p>
