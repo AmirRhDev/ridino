@@ -65,7 +65,7 @@ export function useSavedCars(userId?: string) {
 
       if (error) throw new Error(error.message);
 
-      return data.map((item) => item.cars);
+      return data.flatMap((item) => item.cars);
     },
     enabled: !!userId,
     refetchOnMount: true,
