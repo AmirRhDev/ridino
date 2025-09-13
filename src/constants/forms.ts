@@ -82,3 +82,27 @@ export const DIFFERENTIAL = [
     label: "دو دیفرانسیل",
   },
 ];
+
+export const DEFAULT_VALUES = {
+  images: [],
+  title: "",
+  year: "",
+  notDriven: false,
+  kilometers: undefined,
+  gearbox: "",
+  location: "",
+  negotiated: false,
+  price: undefined,
+  clearBody: false,
+  bodyStatus: "",
+  gasType: "",
+  color: "",
+  insideColor: "",
+  motor: "",
+  acceleration: "",
+  power: "",
+  fuelConsumption: "",
+  differential: "",
+  description: "",
+  phone: "",
+};
