@@ -1,4 +1,4 @@
-import { Car, Search } from "lucide-react";
+import { Car, Info, Search } from "lucide-react";
 import MobileNavigationLink from "./mobile-navigation-link";
 
 function MobileNavigation() {
@@ -16,7 +16,11 @@ function MobileNavigation() {
         icon={<Search size={20} />}
       />
 
-      <MobileNavigationLink href="/about" label="درباره رایدینو" />
+      <MobileNavigationLink
+        href="/about"
+        label="درباره رایدینو"
+        icon={<Info size={20} />}
+      />
     </nav>
   );
 }

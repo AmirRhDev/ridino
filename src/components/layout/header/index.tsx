@@ -1,4 +1,3 @@
-import { Button } from "@/components/shadcnUi/button";
 import NavList from "./nav-list";
 import SidebarLogo from "./sidebar-logo";
 import ToggleTheme from "@/components/common/toggle-theme";

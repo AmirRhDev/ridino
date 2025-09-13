@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { ReactNode } from "react";
 
 interface Props {
   href: string;
   label: string;
-  icon?: any;
+  icon?: ReactNode;
 }
 
 function NavLink({ href, label, icon }: Props) {
