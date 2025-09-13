@@ -21,29 +21,31 @@ export default async function Home({ searchParams }: HomeProps) {
     <>
       <Hero />
 
-      <div className="w-full flex flex-col gap-3 border-b border-border pb-4 mb-4">
-        <div className="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-center gap-3">
-          <SearchField defaultValue={title} />
+      <div className="relative z-10">
+        <div className="w-full flex flex-col gap-3 border-b border-border pb-4 mb-4">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-center gap-3">
+            <SearchField defaultValue={title} />
 
-          <ProductsSortFilter defaultValue={sort} />
+            <ProductsSortFilter defaultValue={sort} />
 
-          <ProductStaticFilter defaultValue={hasFixedPrice} />
+            <ProductStaticFilter defaultValue={hasFixedPrice} />
+          </div>
+
+          {/* <CategoryList /> */}
         </div>
 
-        {/* <CategoryList /> */}
+        <Suspense
+          fallback={
+            <ProductLoader className="sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" />
+          }
+        >
+          <AllProduct
+            searchedTitle={title}
+            sort={sort}
+            hasFixedPrice={hasFixedPrice}
+          />
+        </Suspense>
       </div>
-
-      <Suspense
-        fallback={
-          <ProductLoader className="sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" />
-        }
-      >
-        <AllProduct
-          searchedTitle={title}
-          sort={sort}
-          hasFixedPrice={hasFixedPrice}
-        />
-      </Suspense>
     </>
   );
 }
