@@ -2,65 +2,82 @@ import ProductCarousel from "@/components/features/product/product-carousel";
 import ProductDescription from "@/components/features/product/product-description";
 import ProductTechnicalDetail from "@/components/features/product/product-technical-detail";
 import ProductCopy from "@/components/features/product/product-copy";
-import ProductLike from "@/components/features/product/product-like";
+import ProductSave from "@/components/features/product/product-save";
 import ProductDetail from "@/components/features/product/product-detail";
 import ProductsLocation from "@/components/features/product/products-location";
 import ProductPrice from "@/components/features/product/product-price";
 import ProductCallCustomer from "@/components/features/product/product-call-customer";
 import ProductMore from "@/components/features/product/product-more";
-import { supabase } from "@/lib/supabaseClient";
-import { timeAgo } from "@/lib/utils";
 import ProductEdit from "@/components/features/product/product-edit";
+import { timeAgo } from "@/lib/utils";
+import { createServerSupabase } from "@/lib/supabaseServer";
+
 interface CarDetailProps {
   params: Promise<{ id: string }>;
 }
 
-async function CarDetail({ params }: CarDetailProps) {
+export default async function CarDetail({ params }: CarDetailProps) {
   const { id } = await params;
+
+  const supabase = await createServerSupabase();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: car, error } = await supabase
     .from("cars")
     .select("*")
     .eq("id", id)
     .single();
-
   if (error) throw new Error(error.message);
 
   const { data: images, error: listError } = await supabase
     .from("car_images")
     .select("url")
     .eq("car_id", id);
-
   if (listError) throw new Error(listError.message);
 
   const imageUrls = images?.map((img) => img.url).filter(Boolean);
+
+  let isSaved = false;
+  if (user) {
+    const { data: savedRecord } = await supabase
+      .from("saved_cars")
+      .select("id")
+      .eq("car_id", id)
+      .eq("user_id", user.id)
+      .maybeSingle();
+    isSaved = !!savedRecord;
+  }
+
+  const carHasTechnicalDetail = !Object.values(car.technical_detail).every(
+    (v) => v === "",
+  );
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
       <div className="lg:col-span-7 flex flex-col gap-1">
         <ProductCarousel items={imageUrls} />
-
         <ProductDescription
           description={car.description}
           className="hidden lg:flex"
         />
-
-        <ProductTechnicalDetail
-          {...car.technical_detail}
-          className="hidden lg:flex"
-        />
+        {carHasTechnicalDetail && (
+          <ProductTechnicalDetail
+            {...car.technical_detail}
+            className="hidden lg:flex"
+          />
+        )}
       </div>
 
       <div className="lg:col-span-4 flex flex-col gap-1 p-1 h-min lg:sticky lg:top-[80px]">
         <div className="flex justify-between items-center gap-3">
           <h1 className="font-semibold text-foreground text-xl">{car.title}</h1>
-
           <div className="flex items-center gap-3.5">
             <ProductEdit carId={car.id} userId={car.user_id} />
-
             <ProductCopy />
-
-            <ProductLike />
+            <ProductSave carId={car.id} initialSaved={isSaved} />
           </div>
         </div>
 
@@ -69,19 +86,16 @@ async function CarDetail({ params }: CarDetailProps) {
           kilometers={car.kilometers}
           gearbox={car.gearbox}
         />
-
         <span className="text-foreground/80 text-sm mt-3">
           {timeAgo(car.created_at)}
         </span>
 
         <div className="flex items-center justify-between gap-1 text-lg border-b border-foreground/10 pb-3">
           <ProductsLocation location={car.location} />
-
           <ProductPrice price={car.price} />
         </div>
 
         <ProductCallCustomer phone={car.phone} />
-
         <ProductMore
           data={{
             kilometers: car.kilometers,
@@ -98,13 +112,12 @@ async function CarDetail({ params }: CarDetailProps) {
         description={car.description}
         className="flex lg:hidden border-t pt-3"
       />
-
-      <ProductTechnicalDetail
-        {...car.technical_detail}
-        className="flex lg:hidden"
-      />
+      {carHasTechnicalDetail && (
+        <ProductTechnicalDetail
+          {...car.technical_detail}
+          className="flex lg:hidden"
+        />
+      )}
     </div>
   );
 }
-
-export default CarDetail;
