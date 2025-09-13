@@ -59,8 +59,12 @@ function AuthSection() {
           <DropdownMenuContent className="w-56 z-[99999]" align="end">
             <DropdownMenuLabel>حساب کاربری من</DropdownMenuLabel>
             <DropdownMenuGroup>
-              <DropdownMenuItem>پروفایل</DropdownMenuItem>
-              <DropdownMenuItem>تنظیمات</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/new">افزودن خودرو</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/my-cars">پنل کاربری</Link>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
