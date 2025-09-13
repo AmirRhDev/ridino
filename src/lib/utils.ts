@@ -26,7 +26,7 @@ export function stripCommas(value: string) {
   return value.replace(/,/g, "");
 }
 
-export function parseToModel(data: CarFormType): CarType {
+export function parseToModel(data: CarFormType): Omit<CarType, "car_images"> {
   return {
     id: data.id,
     user_id: data.user_id,
