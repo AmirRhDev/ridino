@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import EmptyList from "@/components/common/empty-list";
 
 interface ProductListProps {
-  items?: CarType[];
+  items?: (CarType & { car_images: { url: string }[] })[];
   className?: string;
 }
 
