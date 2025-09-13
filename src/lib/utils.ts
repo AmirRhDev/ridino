@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "@/lib/dayjs";
-import { CarFormType } from "@/types/product";
+import { CarFormType, CarType } from "@/types/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,7 +26,7 @@ export function stripCommas(value: string) {
   return value.replace(/,/g, "");
 }
 
-export function parseToModel(data: CarFormType) {
+export function parseToModel(data: CarFormType): CarType {
   return {
     id: data.id,
     user_id: data.user_id,
@@ -48,5 +48,34 @@ export function parseToModel(data: CarFormType) {
       differential: data.differential,
     },
     description: data.description,
+    phone: data.phone,
+  };
+}
+
+export function parseToFormData(data: CarType) {
+  return {
+    id: data.id,
+    user_id: data.user_id,
+    title: data.title,
+    year: data.year,
+    kilometers: data.kilometers,
+    notDriven: Boolean(!data.kilometers),
+    gearbox: data.gearbox,
+    location: data.location,
+    price: data.price,
+    negotiated: Boolean(!data.price),
+    bodyStatus: data.body_status,
+    clearBody: Boolean(!data.body_status),
+    gasType: data.gas_type,
+    color: data.color,
+    insideColor: data.inside_color,
+    motor: data.technical_detail?.motor,
+    acceleration: data.technical_detail?.acceleration,
+    power: data.technical_detail?.power,
+    fuelConsumption: data.technical_detail?.fuelConsumption,
+    differential: data.technical_detail?.differential,
+    description: data.description,
+    images: data.car_images,
+    phone: data.phone,
   };
 }
