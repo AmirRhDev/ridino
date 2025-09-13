@@ -5,14 +5,18 @@ export const carFormSchema = z
     images: z.array(z.any()).min(1, "حداقل یک عکس بارگذاری کنید"),
     title: z.string().min(3, "حداقل باید 3 کارکتر باشد"),
     year: z.string().min(1, "انتخاب سال ساخت الزامی است"),
-    notDriven: z.boolean(),
-    kilometers: z.coerce.number({ invalid_type_error: "کیلومتر نامعتبر است" }),
+    notDriven: z.boolean().optional(),
+    kilometers: z.coerce
+      .number({ invalid_type_error: "کیلومتر نامعتبر است" })
+      .optional(),
     gearbox: z.string().min(1, "انتخاب نوع گیربکس الزامی است"),
     location: z.string().min(1, "انتخاب مکان آگهی الزامی است"),
-    negotiated: z.boolean(),
-    price: z.coerce.number({ invalid_type_error: "قیمت نامعتبر است" }),
+    negotiated: z.boolean().optional(),
+    price: z.coerce
+      .number({ invalid_type_error: "قیمت نامعتبر است" })
+      .optional(),
     gasType: z.string().min(1, "انتخاب نوع سوخت الزامی است"),
-    clearBody: z.boolean(),
+    clearBody: z.boolean().optional(),
     bodyStatus: z.coerce.string({
       invalid_type_error: "وضعیت بدنه نامعتبر است",
     }),
@@ -27,7 +31,7 @@ export const carFormSchema = z
     phone: z.string().min(11, "شماره موبایل باید 11 رقمی باشد"),
   })
   .superRefine((data, ctx) => {
-    if (!data.negotiated && (data.price <= 0 || !data.price)) {
+    if (!data.negotiated && (!data.price || data.price <= 0)) {
       ctx.addIssue({
         path: ["price"],
         code: z.ZodIssueCode.custom,
@@ -35,7 +39,7 @@ export const carFormSchema = z
       });
     }
 
-    if (!data.notDriven && (data.kilometers <= 0 || !data.kilometers)) {
+    if (!data.notDriven && (!data.kilometers || data.kilometers <= 0)) {
       ctx.addIssue({
         path: ["kilometers"],
         code: z.ZodIssueCode.custom,
@@ -56,6 +60,8 @@ export type CarFormValues = z.infer<typeof carFormSchema>;
 
 export const signUpSchema = z
   .object({
+    firstName: z.string().min(2, "نام باید حداقل ۲ کاراکتر باشد"),
+    lastName: z.string().min(2, "نام خانوادگی باید حداقل ۲ کاراکتر باشد"),
     email: z.string().min(1, "ایمیل الزامی است").email("ایمیل معتبر نیست"),
     password: z.string().min(6, "رمزعبور باید حداقل ۶ کاراکتر باشد"),
     confirmPassword: z.string().min(6, "تکرار رمزعبور الزامی است"),
