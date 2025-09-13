@@ -25,7 +25,7 @@ export interface CarType {
   inside_color: string;
   description: string;
   technical_detail?: TechnicalDetailType;
-  car_images: string[];
+  car_images: { url: string }[] | string[]; //TODO: FIX
   phone: string;
 }
 

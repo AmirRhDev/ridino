@@ -9,7 +9,7 @@ import { CarType } from "@/types/product";
 import { GEARBOX, PROVINCES } from "@/constants/forms";
 import TomanIcon from "@/components/icons/tomanIcon";
 
-type Props = CarType;
+type Props = CarType & { car_images: { url: string }[] };
 
 function ProductCard({
   id,
