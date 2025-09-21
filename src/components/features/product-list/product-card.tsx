@@ -33,7 +33,7 @@ function ProductCard({
       className="flex flex-col border border-foreground/30 shadow-muted shadow-sm rounded"
     >
       <Image
-        className="w-full rounded-t aspect-[4/3] "
+        className="w-full rounded-t aspect-[3/2] "
         src={firstImageUrl}
         alt="car image"
         width={400}

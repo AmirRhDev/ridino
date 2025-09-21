@@ -15,7 +15,7 @@ function ProductLoader({ className }: Props) {
     >
       {Array.from({ length: 12 }).map((_, i) => (
         <div key={i} className="flex flex-col gap-2">
-          <Skeleton className="aspect-[4/3] rounded" />
+          <Skeleton className="aspect-[3/2] rounded" />
           <div className="flex items-center justify-between">
             <Skeleton className="h-3 w-1/2" />
             <Skeleton className="h-2 w-10" />
