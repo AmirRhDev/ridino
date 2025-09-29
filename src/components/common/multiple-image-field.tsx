@@ -2,11 +2,8 @@ import { ChangeEvent, useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type ImageItem = {
-  file?: File;
-  url?: string;
-};
+import { ImageItem } from "@/types/product";
+import toast from "react-hot-toast";
 
 type MultipleImageFieldProps = {
   value: ImageItem[];
@@ -33,12 +30,47 @@ export default function MultipleImageField({
     );
   }, [value]);
 
+  // const handleFiles = (files: FileList | File[]) => {
+  //   const filesArray = Array.from(files);
+
+  //   const validFiles = filesArray.filter(
+  //     (f) => f.size <= maxFileSizeMB * 1024 * 1024,
+  //   );
+
+  //   const newItems = validFiles.map((file) => ({ file }));
+
+  //   // enforce max files
+  //   const total = [...value, ...newItems].slice(0, maxFiles);
+
+  //   onChange(total);
+  // };
+
   const handleFiles = (files: FileList | File[]) => {
     const filesArray = Array.from(files);
 
-    const validFiles = filesArray.filter(
-      (f) => f.size <= maxFileSizeMB * 1024 * 1024,
-    );
+    const validFiles: File[] = [];
+
+    filesArray.forEach((f) => {
+      // 1. Check max size
+      if (f.size > maxFileSizeMB * 1024 * 1024) {
+        toast.error(`حجم فایل ${f.name} بیشتر از ${maxFileSizeMB}MB است`);
+        return;
+      }
+
+      // 2. Check Persian characters in name
+      if (/[\u0600-\u06FF]/.test(f.name)) {
+        toast.error("نام فایل باید انگلیسی باشد");
+        return;
+      }
+
+      // 3. Check extension (allow jpg, jpeg, png, webp only)
+      if (!/\.(jpe?g|png|webp)$/i.test(f.name)) {
+        toast.error("فقط فرمت‌های JPG, PNG, WEBP مجاز هستند");
+        return;
+      }
+
+      validFiles.push(f);
+    });
 
     const newItems = validFiles.map((file) => ({ file }));
 
