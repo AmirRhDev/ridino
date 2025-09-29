@@ -79,3 +79,10 @@ export function parseToFormData(data: CarType) {
     phone: data.phone,
   };
 }
+
+export function sanitizeFileName(name: string) {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0600-\u06FF]/g, "") // حذف حروف فارسی
+    .replace(/[^\w.-]+/g, "_"); // جایگزینی فاصله و کاراکترهای خاص
+}
