@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -19,6 +19,7 @@ function EditCarForm({ initialData }: Props) {
   const router = useRouter();
   const { user } = useAuth();
   const [pending, startTransition] = useTransition();
+  const [deletePending, setDeletePending] = useState(false);
 
   const formData = {
     ...parseToFormData(initialData),
@@ -70,12 +71,38 @@ function EditCarForm({ initialData }: Props) {
     });
   };
 
+  const onDelete = async () => {
+    try {
+      setDeletePending(true);
+
+      // delete car images from storage + car_images table
+      for (const url of initialData.car_images) {
+        const path = url.split("/storage/v1/object/public/cars-images/")[1];
+        await supabase.storage.from("cars-images").remove([path]);
+        await supabase.from("car_images").delete().eq("url", url);
+      }
+
+      // delete the car itself
+      await supabase.from("cars").delete().eq("id", formData.id);
+
+      toast.success("خودرو با موفقیت حذف شد");
+      router.push("/"); // redirect to cars list
+    } catch (err) {
+      console.error(err);
+      toast.error("خطا در حذف خودرو");
+    } finally {
+      setDeletePending(false);
+    }
+  };
+
   return (
     <CarForm
       isEditing
       onSubmit={onSubmit}
       pending={pending}
       defaultValues={formData}
+      onDelete={onDelete}
+      deletePending={deletePending}
     />
   );
 }
