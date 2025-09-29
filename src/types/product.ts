@@ -1,11 +1,11 @@
 import { Control, UseFormWatch } from "react-hook-form";
 
 export interface TechnicalDetailType {
-  motor: string;
-  power: string;
-  acceleration: string;
-  fuelConsumption: string;
-  differential: string;
+  motor?: number;
+  power?: number;
+  acceleration?: number;
+  fuelConsumption?: number;
+  differential?: string;
 }
 
 export interface CarType {
@@ -41,10 +41,10 @@ export interface CarFormType {
   gasType: string;
   color: string;
   insideColor: string;
-  motor: string;
-  acceleration: string;
-  power: string;
-  fuelConsumption: string;
+  motor?: number;
+  acceleration?: number;
+  power?: number;
+  fuelConsumption?: number;
   differential: string;
   description: string;
   user_id: string;
@@ -65,3 +65,8 @@ export type FilterStateType = {
 };
 
 export type SortFilterType = "newest" | "oldest";
+
+export type ImageItem = {
+  file?: File;
+  url?: string;
+};

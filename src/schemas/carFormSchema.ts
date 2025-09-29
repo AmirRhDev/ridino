@@ -22,10 +22,18 @@ export const carFormSchema = z
     }),
     color: z.string().min(2, "حداقل باید 2 کارکتر باشد"),
     insideColor: z.string().min(2, "حداقل باید 2 کارکتر باشد"),
-    motor: z.string(),
-    acceleration: z.string(),
-    power: z.string(),
-    fuelConsumption: z.string(),
+    motor: z.coerce
+      .number({ invalid_type_error: "مقدار عددی وارد کنید" })
+      .optional(),
+    acceleration: z.coerce
+      .number({ invalid_type_error: "مقدار عددی وارد کنید" })
+      .optional(),
+    power: z.coerce
+      .number({ invalid_type_error: "مقدار عددی وارد کنید" })
+      .optional(),
+    fuelConsumption: z.coerce
+      .number({ invalid_type_error: "مقدار عددی وارد کنید" })
+      .optional(),
     differential: z.string(),
     description: z.string().min(10, "حداقل باید 10 کارکتر باشد"),
     phone: z.string().min(11, "شماره موبایل باید 11 رقمی باشد"),
