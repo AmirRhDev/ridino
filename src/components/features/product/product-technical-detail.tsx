@@ -23,35 +23,35 @@ function ProductTechnicalDetail({
       <h3 className="font-semibold text-foreground sm:text-lg">مشخصات فنی</h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-1 lg:gap-x-0 gap-y-4">
-        {motor && (
+        {!!motor && (
           <ProductTechnicalDetailItem
             title="حجم موتور"
             description={`${motor} لیتری`}
           />
         )}
 
-        {acceleration && (
+        {!!acceleration && (
           <ProductTechnicalDetailItem
             title="شتاب"
             description={`${acceleration} ثانیه`}
           />
         )}
 
-        {power && (
+        {!!power && (
           <ProductTechnicalDetailItem
             title="قدرت"
             description={`${power} اسب بخار`}
           />
         )}
 
-        {fuelConsumption && (
+        {!!fuelConsumption && (
           <ProductTechnicalDetailItem
             title="مصرف سوخت"
             description={`${fuelConsumption} لیتر در صد کیلومتر`}
           />
         )}
 
-        {differential && (
+        {!!differential && (
           <ProductTechnicalDetailItem
             title="دیفرانسیل"
             description={differentialLabel!}
