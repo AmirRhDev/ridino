@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Pen, Plus } from "lucide-react";
 
 import { carFormSchema, CarFormValues } from "@/schemas/carFormSchema";
 
@@ -22,12 +22,15 @@ import {
   PROVINCES,
   YEARS,
 } from "@/constants/forms";
+import ProductDelete from "./product-delete";
 
 type Props = {
   onSubmit: SubmitHandler<CarFormValues>;
   defaultValues?: Partial<CarFormValues>;
   isEditing?: boolean;
   pending?: boolean;
+  onDelete?: () => Promise<void>;
+  deletePending?: boolean;
 };
 
 export function CarForm({
@@ -35,6 +38,8 @@ export function CarForm({
   defaultValues,
   isEditing,
   pending,
+  onDelete,
+  deletePending,
 }: Props) {
   const handleFormSubmit = (data: CarFormValues) => {
     onSubmit(data);
@@ -51,6 +56,8 @@ export function CarForm({
     resolver: zodResolver(carFormSchema),
     defaultValues,
   });
+
+  console.log("errors", errors);
 
   return (
     <form
@@ -212,8 +219,13 @@ export function CarForm({
       <div className="sm:col-span-2 flex flex-row-reverse gap-2">
         <Button disabled={pending} type="submit" className="w-full sm:w-auto">
           {pending && <LoaderCircle className="size-5 animate-spin " />}
+          {!pending && (isEditing ? <Pen /> : <Plus />)}
           {isEditing ? "ویرایش خودرو" : "ثبت خودرو"}
         </Button>
+
+        {isEditing && onDelete && (
+          <ProductDelete onDelete={onDelete} deletePending={deletePending} />
+        )}
       </div>
     </form>
   );
