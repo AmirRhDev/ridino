@@ -1,30 +1,21 @@
 "use client";
 
 import SwitchField from "@/components/common/switch-field";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
 
 function ProductStaticFilter({ defaultValue }: { defaultValue?: boolean }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const { setParam } = useUpdateSearchParams();
 
   const handleToggle = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (defaultValue) {
-      params.delete("fixed");
-    } else {
-      params.set("fixed", "true");
-    }
-    router.replace(`?${params.toString()}`, { scroll: false });
+    setParam("fixed", defaultValue ? null : "true");
   };
 
   return (
-    <div>
-      <SwitchField
-        label="فقط قیمت مشخص"
-        onClick={handleToggle}
-        defaultValue={defaultValue}
-      />
-    </div>
+    <SwitchField
+      label="فقط قیمت مشخص"
+      onClick={handleToggle}
+      defaultValue={defaultValue}
+    />
   );
 }
 

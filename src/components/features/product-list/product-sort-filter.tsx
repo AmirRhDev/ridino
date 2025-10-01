@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/shadcnUi/button";
 import {
   DropdownMenu,
@@ -12,20 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcnUi/dropdown-menu";
 import { SortFilterType } from "@/types/product";
+import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
 
 export function ProductsSortFilter({
   defaultValue,
 }: {
   defaultValue?: SortFilterType;
 }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const handleSortChange = (sort: SortFilterType) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", sort);
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
+  const { setParam } = useUpdateSearchParams();
 
   return (
     <DropdownMenu>
@@ -42,13 +34,13 @@ export function ProductsSortFilter({
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={defaultValue === "newest"}
-          onCheckedChange={() => handleSortChange("newest")}
+          onCheckedChange={() => setParam("sort", "newest")}
         >
           جدیدترین
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={defaultValue === "oldest"}
-          onCheckedChange={() => handleSortChange("oldest")}
+          onCheckedChange={() => setParam("sort", "oldest")}
         >
           قدیمی‌ترین
         </DropdownMenuCheckboxItem>
