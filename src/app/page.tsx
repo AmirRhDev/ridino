@@ -35,6 +35,7 @@ export default async function Home({ searchParams }: HomeProps) {
         </div>
 
         <Suspense
+          key={`${title}-${sort}-${hasFixedPrice}`}
           fallback={
             <ProductLoader className="sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" />
           }
