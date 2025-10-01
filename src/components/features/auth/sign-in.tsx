@@ -86,7 +86,7 @@ function SignIn() {
             )}
           </Button>
 
-          <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+          {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
             <span className="bg-card text-muted-foreground relative z-10 px-2">
               یا با موارد زیر ادامه دهید
             </span>
@@ -106,7 +106,7 @@ function SignIn() {
               </svg>
               <span className="sr-only">ورود با گوگل</span>
             </Button>
-          </div>
+          </div> */}
 
           <div className="text-center text-sm">
             حساب کاربری ندارید؟{" "}
