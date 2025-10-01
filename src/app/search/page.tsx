@@ -20,9 +20,9 @@ async function page({ searchParams }: Props) {
     <>
       <div className="w-full flex flex-col gap-3 border-b border-border pb-4 mb-4">
         <div className="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-center gap-3">
-          <SearchField />
+          <SearchField defaultValue={title} />
 
-          <ProductsSortFilter />
+          <ProductsSortFilter defaultValue={sort} />
 
           <ProductStaticFilter defaultValue={hasFixedPrice} />
         </div>
