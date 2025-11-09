@@ -47,8 +47,8 @@ After creating each bucket → open it → **Manage Policies** → enable **Publ
 ### 5. Run the Project
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 App runs at → http://localhost:3000
