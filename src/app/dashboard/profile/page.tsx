@@ -1,10 +1,11 @@
 "use client";
 
 import { ProfileForm } from "@/components/features/profile-form/profile-form";
+import ProfileFormLoader from "@/components/features/profile-form/profile-form-loader";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useProfile } from "@/hooks/use-profile";
-import { supabase } from "@/lib/supabaseClient";
 import { ProfileFormValues } from "@/schemas/profileFormSchema";
+import { updateProfile } from "@/services/profile.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function Profile() {
@@ -12,50 +13,27 @@ function Profile() {
   const { user } = useAuth();
   const { data: profile, isLoading, isError } = useProfile();
 
-  const { mutate: updateProfile, isPending: isUpdating } = useMutation({
-    mutationFn: async (data: ProfileFormValues) => {
-      if (!user) throw new Error("Not logged in");
-
-      let avatarUrl = profile?.avatar_url || null;
-
-      if (data.avatar?.length && data.avatar[0].file) {
-        const file = data.avatar[0].file;
-
-        const { data: storageData, error: uploadError } = await supabase.storage
-          .from("avatars")
-          .upload(`${user.id}/avatar-${file.name}`, file, { upsert: true });
-
-        if (uploadError) throw uploadError;
-
-        avatarUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${storageData.path}`;
-      }
-
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          first_name: data.firstName,
-          last_name: data.lastName,
-          avatar_url: avatarUrl,
-        })
-        .eq("id", user.id);
-
-      if (error) throw error;
-    },
+  const { mutate: submit, isPending } = useMutation<
+    void,
+    Error,
+    ProfileFormValues
+  >({
+    mutationFn: (data) => updateProfile(user!.id, data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["profile"] }),
   });
 
-  if (isLoading) return <p>در حال بارگذاری...</p>;
-  if (isError) return <p>خطا در دریافت پروفایل</p>;
+  if (isLoading) return <ProfileFormLoader />;
+  if (isError) return <p>خطا در دریافت پروفایل</p>; //TODO: handle error
 
   return (
     <ProfileForm
-      onSubmit={(data) => updateProfile(data)}
+      onSubmit={(data) => submit(data)}
+      pending={isPending}
       defaultValues={{
         firstName: profile?.first_name ?? "",
         lastName: profile?.last_name ?? "",
         avatar: profile?.avatar_url ? [{ url: profile.avatar_url }] : [],
       }}
-      pending={isUpdating}
     />
   );
 }
