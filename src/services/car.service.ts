@@ -18,7 +18,7 @@ export async function getCarById(id: string) {
 
   return {
     ...data,
-    car_images: data?.car_images?.map((img) => img.url) ?? [],
+    car_images: data?.car_images?.map((img: any) => img.url) ?? [],
   };
 }
 
