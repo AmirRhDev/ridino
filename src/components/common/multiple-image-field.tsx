@@ -2,7 +2,7 @@ import { ChangeEvent, useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ImageItem } from "@/types/product";
+import { ImageItem } from "@/types/car";
 import toast from "react-hot-toast";
 
 type MultipleImageFieldProps = {

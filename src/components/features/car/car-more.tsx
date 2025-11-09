@@ -17,13 +17,13 @@ interface DataTypeProps {
   bodyStatus: string;
 }
 
-function ProductMore({ data }: { data: DataTypeProps }) {
+function CarMore({ data }: { data: DataTypeProps }) {
   const gasTypeLabel = GASTYPE.find((d) => d.id === data.gasType)?.label;
   const gearboxLabel = GEARBOX.find((d) => d.id === data.gearbox)?.label;
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 mt-5">
-      <ProductMoreItem
+      <CarMoreItem
         icon={<CarKilometerIcon className="size-7 m-1.5" />}
         title="کارکرد"
         description={
@@ -33,31 +33,31 @@ function ProductMore({ data }: { data: DataTypeProps }) {
         }
       />
 
-      <ProductMoreItem
+      <CarMoreItem
         icon={<GasIcon className="size-7 m-1.5" />}
         title="نوع سوخت"
         description={gasTypeLabel!}
       />
 
-      <ProductMoreItem
+      <CarMoreItem
         icon={<GearBoxIcon className="size-7 m-1.5" />}
         title="گیربکس"
         description={gearboxLabel!}
       />
 
-      <ProductMoreItem
+      <CarMoreItem
         icon={<CarBodyIcon className="size-7 m-1.5" />}
         title="وضعیت بدنه"
         description={!data.bodyStatus ? "بی رنگ" : data.bodyStatus}
       />
 
-      <ProductMoreItem
+      <CarMoreItem
         icon={<ColorBrushIcon className="size-7 m-1.5" />}
         title="رنگ بدنه"
         description={data.color}
       />
 
-      <ProductMoreItem
+      <CarMoreItem
         icon={<CarChairIcon className="size-7 m-1.5" />}
         title="رنگ داخلی"
         description={data.insideColor}
@@ -66,15 +66,15 @@ function ProductMore({ data }: { data: DataTypeProps }) {
   );
 }
 
-export default ProductMore;
+export default CarMore;
 
-interface ProductMoreItemProps {
+interface CarMoreItemProps {
   icon: ReactElement;
   title: string;
   description: string;
 }
 
-function ProductMoreItem({ icon, title, description }: ProductMoreItemProps) {
+function CarMoreItem({ icon, title, description }: CarMoreItemProps) {
   return (
     <div className="flex flex-col gap-1 items-center p-2">
       <div className="border-2 border-primary/60 rounded-full text-foreground/90">

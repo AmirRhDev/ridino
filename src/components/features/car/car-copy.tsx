@@ -4,7 +4,7 @@ import { Copy } from "lucide-react";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 
-function ProductCopy() {
+function CarCopy() {
   const pathname = usePathname();
 
   const copy = () => {
@@ -23,4 +23,4 @@ function ProductCopy() {
   );
 }
 
-export default ProductCopy;
+export default CarCopy;

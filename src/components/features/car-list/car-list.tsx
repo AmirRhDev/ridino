@@ -1,14 +1,14 @@
-import { CarType } from "@/types/product";
-import ProductCard from "./product-card";
+import { CarType } from "@/types/car";
+import CarCard from "./car-card";
 import { cn } from "@/lib/utils";
 import EmptyList from "@/components/common/empty-list";
 
-interface ProductListProps {
+interface CarListProps {
   items?: (CarType & { car_images: { url: string }[] })[];
   className?: string;
 }
 
-function ProductList({ items, className }: ProductListProps) {
+function CarList({ items, className }: CarListProps) {
   if (!items || !items?.length) {
     return <EmptyList className="mt-10" />;
   }
@@ -20,9 +20,9 @@ function ProductList({ items, className }: ProductListProps) {
         className,
       )}
     >
-      {items?.map((item) => <ProductCard key={item.id} {...item} />)}
+      {items?.map((item) => <CarCard key={item.id} {...item} />)}
     </div>
   );
 }
 
-export default ProductList;
+export default CarList;

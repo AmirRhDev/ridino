@@ -5,7 +5,7 @@ interface Props {
   description: string;
 }
 
-function ProductDescription({ className, description }: Props) {
+function CarDescription({ className, description }: Props) {
   return (
     <div
       className={cn(
@@ -19,4 +19,4 @@ function ProductDescription({ className, description }: Props) {
   );
 }
 
-export default ProductDescription;
+export default CarDescription;

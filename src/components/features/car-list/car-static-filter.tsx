@@ -3,7 +3,7 @@
 import SwitchField from "@/components/common/switch-field";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
 
-function ProductStaticFilter({ defaultValue }: { defaultValue?: boolean }) {
+function CarStaticFilter({ defaultValue }: { defaultValue?: boolean }) {
   const { setParam } = useUpdateSearchParams();
 
   const handleToggle = () => {
@@ -19,4 +19,4 @@ function ProductStaticFilter({ defaultValue }: { defaultValue?: boolean }) {
   );
 }
 
-export default ProductStaticFilter;
+export default CarStaticFilter;

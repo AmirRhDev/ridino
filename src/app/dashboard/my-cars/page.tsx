@@ -1,7 +1,7 @@
 "use client";
 
-import ProductList from "@/components/features/product-list/product-list";
-import ProductLoader from "@/components/features/product-list/product-loader";
+import CarList from "@/components/features/car-list/car-list";
+import CarLoader from "@/components/features/car-list/car-loader";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/shadcnUi/button";
 import { useUserCars } from "@/hooks/useCars";
@@ -12,7 +12,7 @@ function MyCars() {
 
   const { data, isLoading, error } = useUserCars(user?.id);
 
-  if (isLoading) return <ProductLoader />;
+  if (isLoading) return <CarLoader />;
   if (error) return <p>خطا در دریافت اطلاعات</p>; //TODO: handle error
 
   return (
@@ -25,7 +25,7 @@ function MyCars() {
         </Button>
       </div>
 
-      <ProductList
+      <CarList
         items={data ?? []}
         className="sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
       />

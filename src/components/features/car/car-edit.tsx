@@ -4,7 +4,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { Edit } from "lucide-react";
 import Link from "next/link";
 
-function ProductEdit({ carId, userId }: { carId: string; userId: string }) {
+function CarEdit({ carId, userId }: { carId: string; userId: string }) {
   const { user } = useAuth();
 
   return (
@@ -19,4 +19,4 @@ function ProductEdit({ carId, userId }: { carId: string; userId: string }) {
   );
 }
 
-export default ProductEdit;
+export default CarEdit;

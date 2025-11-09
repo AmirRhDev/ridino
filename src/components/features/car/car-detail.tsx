@@ -7,7 +7,7 @@ interface Props {
   gearbox: string;
 }
 
-function ProductDetail({ year, kilometers, gearbox }: Props) {
+function CarDetail({ year, kilometers, gearbox }: Props) {
   const gearboxLabel = GEARBOX.find((d) => d.id === gearbox)?.label;
 
   return (
@@ -23,4 +23,4 @@ function ProductDetail({ year, kilometers, gearbox }: Props) {
   );
 }
 
-export default ProductDetail;
+export default CarDetail;

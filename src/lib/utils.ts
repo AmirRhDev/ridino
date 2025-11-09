@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import dayjs from "@/lib/dayjs";
-import { CarFormType, CarType } from "@/types/product";
+import { CarFormType, CarType } from "@/types/car";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

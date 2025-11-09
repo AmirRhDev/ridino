@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-function ProductCarousel({ items }: { items: string[] }) {
+function CarCarousel({ items }: { items: string[] }) {
   return (
     //TODO: add full screen mode and change some styles
     <div className="w-full h-[400px]">
@@ -36,4 +36,4 @@ function ProductCarousel({ items }: { items: string[] }) {
   );
 }
 
-export default ProductCarousel;
+export default CarCarousel;

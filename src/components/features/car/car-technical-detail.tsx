@@ -1,12 +1,12 @@
 import { DIFFERENTIAL } from "@/constants/forms";
 import { cn } from "@/lib/utils";
-import { TechnicalDetailType } from "@/types/product";
+import { TechnicalDetailType } from "@/types/car";
 
 interface Props extends TechnicalDetailType {
   className?: string;
 }
 
-function ProductTechnicalDetail({
+function CarTechnicalDetail({
   className,
   motor,
   power,
@@ -24,35 +24,35 @@ function ProductTechnicalDetail({
 
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-1 lg:gap-x-0 gap-y-4">
         {!!motor && (
-          <ProductTechnicalDetailItem
+          <CarTechnicalDetailItem
             title="حجم موتور"
             description={`${motor} لیتری`}
           />
         )}
 
         {!!acceleration && (
-          <ProductTechnicalDetailItem
+          <CarTechnicalDetailItem
             title="شتاب"
             description={`${acceleration} ثانیه`}
           />
         )}
 
         {!!power && (
-          <ProductTechnicalDetailItem
+          <CarTechnicalDetailItem
             title="قدرت"
             description={`${power} اسب بخار`}
           />
         )}
 
         {!!fuelConsumption && (
-          <ProductTechnicalDetailItem
+          <CarTechnicalDetailItem
             title="مصرف سوخت"
             description={`${fuelConsumption} لیتر در صد کیلومتر`}
           />
         )}
 
         {!!differential && (
-          <ProductTechnicalDetailItem
+          <CarTechnicalDetailItem
             title="دیفرانسیل"
             description={differentialLabel!}
           />
@@ -62,16 +62,16 @@ function ProductTechnicalDetail({
   );
 }
 
-export default ProductTechnicalDetail;
+export default CarTechnicalDetail;
 
-interface ProductTechnicalDetailItem {
+interface CarTechnicalDetailItem {
   title: string;
   description: string;
 }
-function ProductTechnicalDetailItem({
+function CarTechnicalDetailItem({
   title,
   description,
-}: ProductTechnicalDetailItem) {
+}: CarTechnicalDetailItem) {
   return (
     <div className="flex flex-col gap-1">
       <p className="font-semibold text-foreground/80 text-sm">{title}</p>

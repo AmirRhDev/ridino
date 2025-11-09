@@ -2,7 +2,7 @@ import { Controller } from "react-hook-form";
 import TextField from "@/components/common/text-field";
 import { Checkbox } from "@/components/shadcnUi/checkbox";
 import { Label } from "@/components/shadcnUi/label";
-import { CustomControllerPropType } from "@/types/product";
+import { CustomControllerPropType } from "@/types/car";
 
 function KilometersController({
   control,

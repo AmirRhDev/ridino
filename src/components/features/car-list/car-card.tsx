@@ -5,13 +5,13 @@ import { MapPin } from "lucide-react";
 
 import { formatPrice, timeAgo } from "@/lib/utils";
 
-import { CarType } from "@/types/product";
+import { CarType } from "@/types/car";
 import { GEARBOX, PROVINCES } from "@/constants/forms";
 import TomanIcon from "@/components/icons/tomanIcon";
 
 type Props = CarType & { car_images: { url: string }[] };
 
-function ProductCard({
+function CarCard({
   id,
   title,
   created_at,
@@ -84,4 +84,4 @@ function ProductCard({
   );
 }
 
-export default ProductCard;
+export default CarCard;

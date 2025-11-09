@@ -13,7 +13,7 @@ interface Props {
   onDelete: () => Promise<void>;
   deletePending?: boolean;
 }
-function ProductDelete({ onDelete, deletePending }: Props) {
+function CarDelete({ onDelete, deletePending }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,4 +56,4 @@ function ProductDelete({ onDelete, deletePending }: Props) {
   );
 }
 
-export default ProductDelete;
+export default CarDelete;

@@ -21,7 +21,7 @@ interface Props {
   initialSaved: boolean;
 }
 
-export default function ProductSave({ carId, initialSaved }: Props) {
+export default function CarSave({ carId, initialSaved }: Props) {
   const { user } = useAuth();
   const [saved, setSaved] = useState(initialSaved);
   const [loading, setLoading] = useState(false);

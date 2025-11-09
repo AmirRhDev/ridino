@@ -9,14 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/shadcnUi/dropdown-menu";
-import { SortFilterType } from "@/types/product";
+import { SortFilterType } from "@/types/car";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
 
-export function ProductsSortFilter({
-  defaultValue,
-}: {
-  defaultValue?: SortFilterType;
-}) {
+function CarSortFilter({ defaultValue }: { defaultValue?: SortFilterType }) {
   const { setParam } = useUpdateSearchParams();
 
   return (
@@ -48,3 +44,4 @@ export function ProductsSortFilter({
     </DropdownMenu>
   );
 }
+export default CarSortFilter;

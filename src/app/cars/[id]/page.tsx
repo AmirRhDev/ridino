@@ -1,14 +1,14 @@
-import ProductCarousel from "@/components/features/product/product-carousel";
-import ProductDescription from "@/components/features/product/product-description";
-import ProductTechnicalDetail from "@/components/features/product/product-technical-detail";
-import ProductCopy from "@/components/features/product/product-copy";
-import ProductSave from "@/components/features/product/product-save";
-import ProductDetail from "@/components/features/product/product-detail";
-import ProductsLocation from "@/components/features/product/products-location";
-import ProductPrice from "@/components/features/product/product-price";
-import ProductCallCustomer from "@/components/features/product/product-call-customer";
-import ProductMore from "@/components/features/product/product-more";
-import ProductEdit from "@/components/features/product/product-edit";
+import CarCarousel from "@/components/features/car/car-carousel";
+import CarDescription from "@/components/features/car/car-description";
+import CarTechnicalDetail from "@/components/features/car/car-technical-detail";
+import CarCopy from "@/components/features/car/car-copy";
+import CarSave from "@/components/features/car/car-save";
+import CarDetail from "@/components/features/car/car-detail";
+import CarLocation from "@/components/features/car/car-location";
+import CarPrice from "@/components/features/car/car-price";
+import CarCallCustomer from "@/components/features/car/car-call-customer";
+import CarMore from "@/components/features/car/car-more";
+import CarEdit from "@/components/features/car/car-edit";
 import { timeAgo } from "@/lib/utils";
 import { createServerSupabase } from "@/lib/supabaseServer";
 
@@ -16,7 +16,7 @@ interface CarDetailProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function CarDetail({ params }: CarDetailProps) {
+export default async function CarDetailPage({ params }: CarDetailProps) {
   const { id } = await params;
 
   const supabase = await createServerSupabase();
@@ -58,13 +58,15 @@ export default async function CarDetail({ params }: CarDetailProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
       <div className="lg:col-span-7 flex flex-col gap-1">
-        <ProductCarousel items={imageUrls} />
-        <ProductDescription
+        <CarCarousel items={imageUrls} />
+
+        <CarDescription
           description={car.description}
           className="hidden lg:flex"
         />
+
         {carHasTechnicalDetail && (
-          <ProductTechnicalDetail
+          <CarTechnicalDetail
             {...car.technical_detail}
             className="hidden lg:flex"
           />
@@ -75,13 +77,13 @@ export default async function CarDetail({ params }: CarDetailProps) {
         <div className="flex justify-between items-center gap-3">
           <h1 className="font-semibold text-foreground text-xl">{car.title}</h1>
           <div className="flex items-center gap-3.5">
-            <ProductEdit carId={car.id} userId={car.user_id} />
-            <ProductCopy />
-            <ProductSave carId={car.id} initialSaved={isSaved} />
+            <CarEdit carId={car.id} userId={car.user_id} />
+            <CarCopy />
+            <CarSave carId={car.id} initialSaved={isSaved} />
           </div>
         </div>
 
-        <ProductDetail
+        <CarDetail
           year={car.year}
           kilometers={car.kilometers}
           gearbox={car.gearbox}
@@ -91,12 +93,12 @@ export default async function CarDetail({ params }: CarDetailProps) {
         </span>
 
         <div className="flex items-center justify-between gap-1 text-lg border-b border-foreground/10 pb-3">
-          <ProductsLocation location={car.location} />
-          <ProductPrice price={car.price} />
+          <CarLocation location={car.location} />
+          <CarPrice price={car.price} />
         </div>
 
-        <ProductCallCustomer phone={car.phone} />
-        <ProductMore
+        <CarCallCustomer phone={car.phone} />
+        <CarMore
           data={{
             kilometers: car.kilometers,
             gasType: car.gas_type,
@@ -108,12 +110,12 @@ export default async function CarDetail({ params }: CarDetailProps) {
         />
       </div>
 
-      <ProductDescription
+      <CarDescription
         description={car.description}
         className="flex lg:hidden border-t pt-3"
       />
       {carHasTechnicalDetail && (
-        <ProductTechnicalDetail
+        <CarTechnicalDetail
           {...car.technical_detail}
           className="flex lg:hidden"
         />

@@ -11,7 +11,6 @@ function SwitchField({
   label?: string;
 }) {
   return (
-    //  TODO: fix dark mode
     <Label
       dir="ltr"
       className="flex items-center justify-center gap-2 cursor-pointer border border-border bg-input py-2 px-2.5 rounded-md w-full sm:w-auto sm:grow md:grow-0"

@@ -1,12 +1,12 @@
-import { FilterStateType } from "@/types/product";
-import ProductList from "@/components/features/product-list/product-list";
+import { FilterStateType } from "@/types/car";
+import CarList from "@/components/features/car-list/car-list";
 import { supabase } from "@/lib/supabaseClient";
 
-export const AllProduct = async ({
+async function AllCars({
   searchedTitle,
   hasFixedPrice,
   sort = "newest",
-}: FilterStateType) => {
+}: FilterStateType) {
   let query = supabase
     .from("cars")
     .select("*, car_images(url)")
@@ -24,5 +24,7 @@ export const AllProduct = async ({
 
   if (error) throw new Error(error.message);
 
-  return <ProductList items={data} />;
-};
+  return <CarList items={data} />;
+}
+
+export default AllCars;

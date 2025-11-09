@@ -1,7 +1,7 @@
 import { PROVINCES } from "@/constants/forms";
 import { MapPin } from "lucide-react";
 
-function ProductsLocation({ location }: { location: string }) {
+function CarLocation({ location }: { location: string }) {
   const locationLabel = PROVINCES.find((d) => d.id === location)?.label;
 
   return (
@@ -13,4 +13,4 @@ function ProductsLocation({ location }: { location: string }) {
   );
 }
 
-export default ProductsLocation;
+export default CarLocation;

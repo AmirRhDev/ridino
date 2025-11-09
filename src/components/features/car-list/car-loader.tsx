@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-function ProductLoader({ className }: Props) {
+function CarLoader({ className }: Props) {
   return (
     <div
       className={cn(
@@ -31,4 +31,4 @@ function ProductLoader({ className }: Props) {
   );
 }
 
-export default ProductLoader;
+export default CarLoader;
