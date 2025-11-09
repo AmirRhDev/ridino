@@ -26,8 +26,6 @@ async function page({ searchParams }: Props) {
 
           <CarStaticFilter defaultValue={hasFixedPrice} />
         </div>
-
-        {/* <CategoryList /> */}
       </div>
 
       <Suspense
