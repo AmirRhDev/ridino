@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🛠 Supabase Setup
 
-## Getting Started
+This project uses Supabase for authentication, database, and storage.
 
-First, run the development server:
+### 1. Create Supabase Project
+
+Go to https://app.supabase.com → Create new project.
+
+### 2. Set Environment Variables
+
+Copy `.env.example` to `.env.local` and fill with your keys:
+
+### 3. Apply Database Schema
+
+Open your Supabase dashboard:
+→ SQL Editor → New Query  
+Copy the contents of: migrations/0001_create_schema.sql
+Then click **Run** ✅
+
+This will create the following tables:
+
+| Table        | Purpose                                                    |
+| ------------ | ---------------------------------------------------------- |
+| `profiles`   | Stores user profile info (linked to Supabase `auth.users`) |
+| `cars`       | Car listings posted by users                               |
+| `car_images` | Image URLs associated with car listings                    |
+| `saved_cars` | Cars saved/favorited by users                              |
+
+---
+
+### 4. Create Storage Buckets
+
+Go to:
+**Storage → Create Bucket**
+
+Create _both_ buckets:
+
+| Bucket Name   | Access | Used For           |
+| ------------- | ------ | ------------------ |
+| `avatars`     | Public | Profile pictures   |
+| `cars-images` | Public | Car listing images |
+
+After creating each bucket → open it → **Manage Policies** → enable **Public Read**.
+
+---
+
+### 5. Run the Project
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+App runs at → http://localhost:3000
