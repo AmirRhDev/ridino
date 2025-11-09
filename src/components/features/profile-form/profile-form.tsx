@@ -50,8 +50,8 @@ export function ProfileForm({ onSubmit, defaultValues, pending }: Props) {
               <MultipleImageField
                 value={field.value || []}
                 onChange={field.onChange}
-                maxFiles={1} // 👈 only allow one file
-                maxFileSizeMB={5} // 👈 smaller max size
+                maxFiles={1}
+                maxFileSizeMB={5}
               />
               {fieldState.error && (
                 <p className="text-sm text-destructive mt-1">
