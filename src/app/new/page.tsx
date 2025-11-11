@@ -1,6 +1,5 @@
 import AddCarForm from "@/components/features/car-form/add-car-form";
 
-//TODO: add skeleton
 function AddCarPage() {
   return (
     <div className="flex flex-col gap-4">
