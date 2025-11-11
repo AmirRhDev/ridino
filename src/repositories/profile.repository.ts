@@ -1,5 +1,17 @@
 import { supabase } from "@/lib/supabaseClient";
 
+export async function repoCreateProfile(
+  userId: string,
+  first: string,
+  last: string,
+) {
+  return supabase.from("profiles").insert({
+    id: userId,
+    first_name: first,
+    last_name: last,
+  });
+}
+
 export const repoGetProfile = async (userId: string) => {
   return supabase.from("profiles").select("*").eq("id", userId).single();
 };
