@@ -11,7 +11,7 @@ import TextField from "@/components/common/text-field";
 import AuthCard from "@/components/features/auth/auth-card";
 
 import { SignInFormValues, signInSchema } from "@/schemas/authFormSchema";
-import { supabaseSignIn } from "@/lib/auth";
+import { supabaseSignIn } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
 function SignIn() {

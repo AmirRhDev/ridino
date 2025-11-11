@@ -11,7 +11,7 @@ import TextField from "@/components/common/text-field";
 import AuthCard from "@/components/features/auth/auth-card";
 
 import { SignUpFormValues, signUpSchema } from "@/schemas/authFormSchema";
-import { supabaseSignUp } from "@/lib/auth";
+import { signUpWithProfile, supabaseSignUp } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -28,34 +28,15 @@ function SignUp() {
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async ({
-    firstName,
-    lastName,
-    email,
-    password,
-  }: SignUpFormValues) => {
+  const onSubmit = async (data: SignUpFormValues) => {
     setLoading(true);
     try {
-      const signUpData = await supabaseSignUp(email, password);
-
-      if (signUpData.user) {
-        const { error: profileError } = await supabase.from("profiles").insert({
-          id: signUpData.user.id,
-          first_name: firstName,
-          last_name: lastName,
-        });
-
-        if (profileError) throw profileError;
-      }
-
-      if (!signUpData.session) {
-        const { error: loginError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (loginError) throw loginError;
-      }
+      await signUpWithProfile(
+        data.email,
+        data.password,
+        data.firstName,
+        data.lastName,
+      );
 
       toast.success("ثبت نام با موفقیت انجام شد");
       router.replace("/");
@@ -69,7 +50,6 @@ function SignUp() {
       setLoading(false);
     }
   };
-
   return (
     <AuthCard>
       <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
