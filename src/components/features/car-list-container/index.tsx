@@ -1,30 +1,16 @@
 import { FilterStateType } from "@/types/car";
 import CarList from "@/components/features/car-list/car-list";
 import { supabase } from "@/lib/supabaseClient";
+import { getCarList } from "@/services/car.service";
 
 async function AllCars({
   searchedTitle,
   hasFixedPrice,
   sort = "newest",
 }: FilterStateType) {
-  let query = supabase
-    .from("cars")
-    .select("*, car_images(url)")
-    .order("created_at", { ascending: sort === "oldest" });
+  const cars = await getCarList({ searchedTitle, hasFixedPrice, sort });
 
-  if (searchedTitle) {
-    query = query.ilike("title", `%${searchedTitle}%`);
-  }
-
-  if (hasFixedPrice) {
-    query = query.gt("price", 0);
-  }
-
-  const { data, error } = await query;
-
-  if (error) throw new Error(error.message);
-
-  return <CarList items={data} />;
+  return <CarList items={cars} />;
 }
 
 export default AllCars;

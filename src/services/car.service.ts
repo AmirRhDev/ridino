@@ -8,7 +8,40 @@ import {
   repoRemoveImage,
   repoRemoveImageFromBucket,
   repoDeleteCar,
+  repoUnsaveCar,
+  repoSaveCar,
+  repoIsCarSaved,
+  repoGetCars,
 } from "@/repositories/car.repository";
+
+export async function getCarList({
+  searchedTitle,
+  hasFixedPrice,
+  sort,
+}: {
+  searchedTitle?: string;
+  hasFixedPrice?: boolean;
+  sort?: "newest" | "oldest";
+}) {
+  const { data, error } = await repoGetCars({
+    searchedTitle,
+    hasFixedPrice,
+    sort,
+  });
+  if (error) throw error;
+
+  return Promise.all(
+    data.map(async (car: any) => {
+      const images =
+        car.car_images?.map((i: any) => i.url).filter(Boolean) ?? [];
+
+      return {
+        ...car,
+        images,
+      };
+    }),
+  );
+}
 
 export async function getCarById(id: string) {
   if (!isUuid(id)) throw new Error("Invalid ID");
