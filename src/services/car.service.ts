@@ -22,6 +22,27 @@ export async function getCarById(id: string) {
   };
 }
 
+export async function getFullCarDetail(carId: string, userId?: string) {
+  if (!isUuid(carId)) throw new Error("Invalid car id");
+
+  const { data: carData, error: carError } = await repoGetCarById(carId);
+  if (carError) throw carError;
+
+  const imageUrls =
+    carData?.car_images?.map((i: any) => i.url).filter(Boolean) ?? [];
+
+  let isSaved = false;
+  if (userId) {
+    isSaved = await repoIsCarSaved(userId, carId);
+  }
+
+  return {
+    car: carData,
+    images: imageUrls,
+    isSaved,
+  };
+}
+
 export async function addCar(model: any, images: { file: File }[]) {
   const { data: car, error } = await repoCreateCar(model);
   if (error) throw error;
@@ -80,4 +101,24 @@ export async function deleteCar(carId: string, urls: string[]) {
     await repoRemoveImage(url);
   }
   await repoDeleteCar(carId);
+}
+
+export async function toggleCarSave({
+  userId,
+  carId,
+  isSaved,
+}: {
+  userId: string;
+  carId: string;
+  isSaved: boolean;
+}) {
+  if (isSaved) {
+    const { error } = await repoUnsaveCar(userId, carId);
+    if (error) throw error;
+    return false;
+  } else {
+    const { error } = await repoSaveCar(userId, carId);
+    if (error) throw error;
+    return true;
+  }
 }

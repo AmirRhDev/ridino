@@ -15,6 +15,7 @@ import { Button } from "@/components/shadcnUi/button";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import toast from "react-hot-toast";
+import { toggleCarSave } from "@/services/car.service";
 
 interface Props {
   carId: string;
@@ -26,37 +27,22 @@ export default function CarSave({ carId, initialSaved }: Props) {
   const [saved, setSaved] = useState(initialSaved);
   const [loading, setLoading] = useState(false);
 
-  const toggleSave = useCallback(async () => {
+  const handleToggle = useCallback(async () => {
     if (!user) return;
-
     setLoading(true);
 
-    if (saved) {
-      const { error } = await supabase
-        .from("saved_cars")
-        .delete()
-        .eq("car_id", carId)
-        .eq("user_id", user.id);
-
-      if (!error) {
-        setSaved(false);
-      }
-
-      toast.success("از لیست ذخیره ها حذف شد");
-    } else {
-      const { error } = await supabase.from("saved_cars").insert({
-        car_id: carId,
-        user_id: user.id,
+    try {
+      const result = await toggleCarSave({
+        userId: user.id,
+        carId,
+        isSaved: saved,
       });
 
-      if (!error) {
-        setSaved(true);
-      }
-
-      toast.success("به لیست ذخیره ها اضافه شد");
+      setSaved(result);
+      toast.success(result ? "به دخیره‌ها اضافه شد" : "از دخیره‌ها حذف شد");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }, [saved, carId, user]);
 
   if (!user) {
@@ -91,7 +77,7 @@ export default function CarSave({ carId, initialSaved }: Props) {
 
   return (
     <button
-      onClick={toggleSave}
+      onClick={handleToggle}
       className="cursor-pointer group disabled:opacity-50"
       disabled={loading}
     >

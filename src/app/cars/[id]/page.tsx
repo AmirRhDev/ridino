@@ -11,6 +11,7 @@ import CarMore from "@/components/features/car/car-more";
 import CarEdit from "@/components/features/car/car-edit";
 import { timeAgo } from "@/lib/utils";
 import { createServerSupabase } from "@/lib/supabaseServer";
+import { getFullCarDetail } from "@/services/car.service";
 
 interface CarDetailProps {
   params: Promise<{ id: string }>;
@@ -25,31 +26,7 @@ export default async function CarDetailPage({ params }: CarDetailProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: car, error } = await supabase
-    .from("cars")
-    .select("*")
-    .eq("id", id)
-    .single();
-  if (error) throw new Error(error.message);
-
-  const { data: images, error: listError } = await supabase
-    .from("car_images")
-    .select("url")
-    .eq("car_id", id);
-  if (listError) throw new Error(listError.message);
-
-  const imageUrls = images?.map((img) => img.url).filter(Boolean);
-
-  let isSaved = false;
-  if (user) {
-    const { data: savedRecord } = await supabase
-      .from("saved_cars")
-      .select("id")
-      .eq("car_id", id)
-      .eq("user_id", user.id)
-      .maybeSingle();
-    isSaved = !!savedRecord;
-  }
+  const { car, images, isSaved } = await getFullCarDetail(id, user?.id);
 
   const carHasTechnicalDetail = !Object.values(car.technical_detail).every(
     (v) => v === "",
@@ -58,7 +35,7 @@ export default async function CarDetailPage({ params }: CarDetailProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-11 gap-4">
       <div className="lg:col-span-7 flex flex-col gap-1">
-        <CarCarousel items={imageUrls} />
+        <CarCarousel items={images} />
 
         <CarDescription
           description={car.description}
