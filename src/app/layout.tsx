@@ -22,8 +22,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //TODO: handle global errors
-
   return (
     <html lang="en">
       <body

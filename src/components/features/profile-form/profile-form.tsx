@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/shadcnUi/button";
 import TextField from "@/components/common/text-field";
 import MultipleImageField from "@/components/common/multiple-image-field";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { Label } from "@/components/shadcnUi/label";
 
 type Props = {
   onSubmit: SubmitHandler<ProfileFormValues>;

@@ -60,12 +60,6 @@ function CarCard({
           <p>{gearboxLabel}</p>
         </div>
 
-        {/* features */}
-        {/* <div className="flex flex-wrap gap-1 py-4">
-          <Badge variant="special">بیمه کامل</Badge>
-          <Badge variant="destructive">فروش فوری</Badge>
-        </div> */}
-
         <div className="flex items-center justify-between gap-1 mt-2.5">
           <div className="flex items-center gap-0.5">
             <MapPin className="text-foreground" size={18} strokeWidth="1.5" />
