@@ -11,9 +11,8 @@ import TextField from "@/components/common/text-field";
 import AuthCard from "@/components/features/auth/auth-card";
 
 import { SignUpFormValues, signUpSchema } from "@/schemas/authFormSchema";
-import { signUpWithProfile, supabaseSignUp } from "@/services/auth.service";
+import { signUpWithProfile } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 
 function SignUp() {
   const router = useRouter();

@@ -1,6 +1,5 @@
 import { FilterStateType } from "@/types/car";
 import CarList from "@/components/features/car-list/car-list";
-import { supabase } from "@/lib/supabaseClient";
 import { getCarList } from "@/services/car.service";
 
 async function AllCars({

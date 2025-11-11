@@ -13,7 +13,6 @@ import {
 } from "@/components/shadcnUi/dialog";
 import { Button } from "@/components/shadcnUi/button";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 import toast from "react-hot-toast";
 import { toggleCarSave } from "@/services/car.service";
 
