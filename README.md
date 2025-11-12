@@ -8,7 +8,7 @@
 
 ## Features
 
-- Full-stack Next.js (frontend + API routes)
+- Full-stack Next.js
 - Authentication via Supabase
 - Car listings with images, technical details, and contact info
 - Save/favorite cars functionality
@@ -27,15 +27,7 @@ git clone https://github.com/AmirRhDev/ridino.git
 cd ridino
 ```
 
-### 2. Configure Environment Variables
-
-Copy .env.example to .env.local and fill in your Supabase credentials:
-
-```bash
-cp .env.example .env.local
-```
-
-### 3. Supabase Setup
+### 2. Supabase Setup
 
 This project uses Supabase for authentication, database, and storage.
 
@@ -77,7 +69,7 @@ Create _both_ buckets:
 
 After creating each bucket → open it → **Manage Policies** → enable **Public Read**.
 
-## 4. Run the Project
+## 3. Run the Project
 
 ```bash
 pnpm install
@@ -130,6 +122,20 @@ App runs at → http://localhost:3000
 ```
 
 ## Screenshots
+
+### Home Page
+
+![Ridino Home Page](./public/screenshots/Screenshot_3.png)
+
+### Car Detail Page
+
+![Car Detail Page](./public/screenshots/Screenshot_1.png)
+
+### Dashboard (Saved Cars Tab)
+
+![Car Detail Page](./public/screenshots/Screenshot_2.png)
+
+---
 
 ## License
 
